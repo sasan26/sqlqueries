@@ -1,7 +1,15 @@
 import java.util.Scanner;
 import java.io.Console;
+//import javax.swing.JOptionPane;
+import java.awt.event.*; 
+import java.awt.*; 
+import javax.swing.*;
 
 public class PP {
+  //public static String inputValue = JOptionPane.showInputDialog("Enter Password: ");
+  //public static char[] passString = System.console().readPassword("%s", "Enter password: ");
+  //public static String Pass = new String(inputValue);
+
   public static String B = System.getProperty("line.separator");
   public void vName(String vname){
       String[][] allAccounts = { 
@@ -59,27 +67,38 @@ public class PP {
     }    
   }
 
-  // public static char[] passString = System.console().readPassword("%s", "Enter password: ");
-  // public static String Pass = new String(passString);
-
+  public static String Pass;
   public void checkPassword(){
-    System.out.print("\t\t");
+    System.out.print("Password: ");
     for(int i=0; i< Pass.length(); i++){ 
       System.out.print("*");
     } 
     System.out.print(B);
   }
+  
+  public void passpopup(){
+    JPanel panel = new JPanel();
+    JLabel label = new JLabel("Enter password:");
+    JPasswordField pass = new JPasswordField(10);
+    panel.add(label);
+    panel.add(pass);
+    String[] options = new String[]{"OK"};
+     JOptionPane.showOptionDialog(null, panel, "PASSWORD APP",
+                                  JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                  null, options, options[0]);
+    
+        char[] password = pass.getPassword();
+        Pass = new String(password);
+        //return Pass;
+  }
 
   public static void main(String[] args) {
-	
+   
     PP checkPasswordName = new PP();
-    Scanner in = new Scanner(System.in);
-    checkPasswordName.checkPassword();
-    checkPasswordName.creditCrator();
-
-    //char[] passString = System.console().readPassword("%s", "Enter password: ");   
-    //String Pass = new String(passString);
- 	
+    Scanner in = new Scanner(System.in);    
+    checkPasswordName.creditCrator(); 
+    checkPasswordName.passpopup();
+    checkPasswordName.checkPassword();	
     if(Pass.equals("sasan")){ 
       checkPasswordName.printCredit("#type help<Enter>  for more information", false);  
       while ( Pass.equals("sasan") ) {
@@ -92,8 +111,5 @@ public class PP {
       }    
     } else { checkPasswordName.printCredit("WRONG PASSWORD!", true); }
       in.close();         
-  }
-  
-  public static char[] passString = System.console().readPassword("%s", "Enter password: ");
-  public static String Pass = new String(passString);
+  }  
 }
