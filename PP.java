@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.io.Console;
-//import javax.swing.JOptionPane;
 import java.awt.event.*; 
 import java.awt.*; 
 import javax.swing.*;
@@ -36,7 +35,6 @@ public class PP {
       } 
         
       if (vname.equals("HELP")){
-
         System.out.println("\t####### List of commands #######");
         System.out.println("\ttype:   help<Enter>\t\t\tfor information");
         System.out.println("\ttype:   all<Enter>\t\t\tfor whole list");
@@ -45,8 +43,7 @@ public class PP {
         break;
       }		
       if (vname.equals("EXIT")){ System.exit(0);} 
-    } 
-  
+    }   
   }
 
   public void creditCrator(){
