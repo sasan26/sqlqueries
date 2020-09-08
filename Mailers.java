@@ -111,14 +111,17 @@ public class Mailers {
       } 
       if(vname.length() > 6 && vname.length() >= 8){
         String stateRes = vname.substring(6, vname.length());
-        boolean state = searchID.contains(stateRes); 
-        if (state){ 
-          System.out.println("\t\t("+allAccounts[i][9]+")");
-          for(int j = 1; j < allAccounts[i].length-1; j++){
-            System.out.println("\t\t"+allAccounts[i][j] );
-          }
-          System.out.println(B);  
-        } 
+        String st = vname.substring(0, 5);
+        if(st.equals("STATE")){
+          boolean state = searchID.contains(stateRes); 
+          if (state){ 
+            System.out.println("\t\t("+allAccounts[i][9]+")");
+            for(int j = 1; j < allAccounts[i].length-1; j++){
+              System.out.println("\t\t"+allAccounts[i][j] );
+            }
+            System.out.println(B);  
+          } 
+        }
       }
       String status = allAccounts[i][8];
       String statusSearch = status.substring(10, status.length());
