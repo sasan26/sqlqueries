@@ -3,6 +3,8 @@ import java.io.*;
 import java.awt.event.*; 
 import java.awt.*; 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Tax {
     // public static char[] passString = System.console().readPassword("%s", "Enter password: ");
@@ -60,6 +62,16 @@ public class Tax {
             {"WI", "Wisconsin", "7/30/2020", "NOMAIL"}        
         };
 
+        Arrays.sort(allAccounts, new Comparator<String[]>() {
+            @Override
+            public int compare(final String[] entry1, final String[] entry2) {
+                final String time1 = entry1[2];
+                final String time2 = entry2[2];
+                return time1.compareTo(time2);
+            }
+        });
+
+
         String[][] allMails = { 
             {"1", "AL", "08/07/2020", "L1859294624", "Late Fee Notice", "$50.00", "Wating for Hien"},
             {"2", "AL", "08/07/2020", "L0248681888", "Late Fee Notice", "$50.00", "Wating for Hien"},
@@ -73,8 +85,8 @@ public class Tax {
             {"10", "NV", "08/07/2020", "20003874010", "Monthly Statement", "$756.92", "Business tax - Hien"},
             {"11", "KS", "07/28/2020", "0101031961323", "Tax Bill", "$890.00", "$30 - Hien"},
             {"12", "AL", "07/26/2020", "L1976044960", "Statement", "$300.00", "Waiting for Hien"},
-            {"13", "ID", "09/01/2020", "L0940296896", "Tax Notice", "$632.07", "Waiting for mail with TAP details"},
-            {"14", "ID", "06/18/2020", "L1397609152", "Tax Notice", "$527.03", "Wating for Hien"},
+            {"13", "ID", "09/01/2020", "L0940296896", "Tax Notice", "$632.07", "Mail didn't received yet"},
+            {"14", "ID", "06/18/2020", "L1397609152", "Tax Notice", "$527.03", "Waiting for mail with TAP details"},
             {"15", "TX", "08/07/2020", "RT562226", "Tax Statement", "$51.00", "Waiting for Hien"}
         };
       

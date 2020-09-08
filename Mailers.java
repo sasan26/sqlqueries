@@ -59,7 +59,7 @@ public class Mailers {
         {"35", "ID: \t\t MI-1518_1", "SENT: \t\t 09/02/2020", "PIECES: \t 8,770", "TRAY(1'): \t 5", "TRAY(2'): \t 9", "CHECK#: \t 6367", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-5"},
         {"36", "ID: \t\t MI-NE-NM-NV-1518_2", "SENT: \t\t 09/04/2020", "PIECES: \t 8,742", "TRAY(1'): \t 9", "TRAY(2'): \t 9", "CHECK#: \t 6369", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-5"},
         {"37", "ID: \t\t NV-SC-1518_3", "SENT: \t\t 08/14/2020", "PIECES: \t 8,671", "TRAY(1'): \t 15", "TRAY(2'): \t 7", "CHECK#: \t 6322", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-5"},
-        {"38", "ID: \t\t SC-UT-1518_4", "SENT: \t\t 09/11/2020", "PIECES: \t 8,666", "TRAY(1'): \t 6", "TRAY(2'): \t 8", "CHECK#: \t 6370", "SAP: \t\t ", "STATUS: \t Shipped", "BATCH-5"},
+        {"38", "ID: \t\t SC-UT-1518_4", "SENT: \t\t 09/09/2020", "PIECES: \t 8,666", "TRAY(1'): \t 6", "TRAY(2'): \t 8", "CHECK#: \t 6370", "SAP: \t\t ", "STATUS: \t Shipped", "BATCH-5"},
         // BATCH-6
         {"39", "ID: \t\t MA-MN-1519_1", "SENT: \t\t ", "PIECES: \t 12,473", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t HOLD", "BATCH-6"},
         {"40", "ID: \t\t MN-MS-TX-1519_2", "SENT: \t\t ", "PIECES: \t 10,696", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t HOLD", "BATCH-6"},
