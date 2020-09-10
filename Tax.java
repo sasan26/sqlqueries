@@ -14,52 +14,52 @@ public class Tax {
     public static String B = System.getProperty("line.separator");
     public void vName(String vname){
         String[][] allAccounts = { 
-            {"AL", "Alabama", "9/8/2020", "HASMAIL"},
-            {"AK", "Alaska", "", "NOMAIL"},
-            {"AZ", "Arizona", "7/27/2020", "NOMAIL"},
-            {"AR", "Arkansas", "7/27/2020", "NOMAIL"},
-            {"CO", "Colorado", "8/26/2020", "NOMAIL"},
-            {"CT", "Connecticutt", "7/27/2020", "NOMAIL"},
-            {"DC", "District of Columbia", "6/4/2020", "NOMAIL"},
-            {"FL", "Florida", "8/26/2020", "NOMAIL"},
-            {"GA", "Georgia", "8/26/2020", "NOMAIL"},
-            {"HI", "Hawaii", "7/27/2020", "NOMAIL"},
-            {"IL", "Illinois", "7/27/2020", "NOMAIL"},
-            {"ID", "Idaho", "", "HASMAIL"},
-            {"IA", "Iowa", "7/24/2020", "NOMAIL"},
-            {"KS", "Kansas", "6/8/2020", "HASMAIL"},
-            {"KY", "Kentucky", "7/27/2020", "NOMAIL"},
-            {"LA", "Louisiana", "8/26/2020", "NOMAIL"},
-            {"ME", "Maine", "6/4/2020", "NOMAIL"},
-            {"MD", "Maryland", "1/4/2020", "NOMAIL"},
-            {"MA", "Massachusetts", "7/28/2020", "NOMAIL"},
-            {"MI", "Michigan", "7/28/2020", "NOMAIL"},
-            {"MN", "Minnesota", "7/9/2020", "NOMAIL"},
-            {"MS", "Mississippi", "7/28/2020", "NOMAIL"},
-            {"MO", "Missouri", "6/4/2020", "NOMAIL"},
-            {"NE", "Nebraska", "7/28/2020", "NOMAIL"},
-            {"NV", "Nevada", "6/4/2020", "HASMAIL"},
-            {"NH", "New Hampshire", "6/4/2020", "NOMAIL"},
-            {"NJ", "New Jersey", "1/17/2020", "NOMAIL"},
-            {"NM", "New Mexico", "7/30/2020", "NOMAIL"},
-            {"NY", "New York", "7/30/2020", "NOMAIL"},
-            {"NC", "North Carolina", "7/30/2020", "NOMAIL"},
-            {"ND", "North Dakota", "", "NOMAIL"},
-            {"OH", "Ohio", "9/1/2020", "NOMAIL"},
-            {"OK", "Oklahoma", "", "NOMAIL"},
-            {"OR", "Oregon", "6/11/2020", "HASMAIL"},
-            {"PA", "Pennsylvania", "1/17/2020", "NOMAIL"},
-            {"RI", "Rhode Island", "", "NOMAIL"},
-            {"SC", "South Carolina", "8/26/2020", "NOMAIL"},
-            {"SD", "South Dakota", "7/16/2020", "NOMAIL"},
-            {"TN", "Tennessee", "7/21/2020", "NOMAIL"},
-            {"TX", "Texas", "7/30/2020", "HASMAIL"},
-            {"UT", "Utah", "", "NOMAIL"},
-            {"VT", "Vermont", "7/30/2020", "NOMAIL"},
-            {"VA", "Virginia", "6/4/2020", "HASMAIL"},
-            {"WA", "Washington", "7/30/2020", "NOMAIL"},
-            {"WV", "West Virginia", "6/4/2020", "NOMAIL"},
-            {"WI", "Wisconsin", "7/30/2020", "NOMAIL"}        
+            {"AL", "Alabama", "09/08/2020", "", "$350.00 \t Late Fee", "HASMAIL"},
+            {"AK", "Alaska", "--/--/----", "No login credential", "$0.00", "NOMAIL"},
+            {"AZ", "Arizona", "07/27/2020", "", "$0.00", "NOMAIL"},
+            {"AR", "Arkansas", "07/27/2020", "", "$0.00", "NOMAIL"},
+            {"CO", "Colorado", "08/26/2020", "", "$0.00", "NOMAIL"},
+            {"CT", "Connecticutt", "07/27/2020", "", "$0.00", "NOMAIL"},
+            {"DC", "District of Columbia", "06/04/2020", "", "$0.00", "NOMAIL"},
+            {"FL", "Florida", "08/26/2020", "", "$100.00 \t Late Fee", "NOMAIL"},
+            {"GA", "Georgia", "08/26/2020", "", "$0.00", "NOMAIL"},
+            {"HI", "Hawaii", "07/27/2020", "", "$0.00", "NOMAIL"},
+            {"IL", "Illinois", "07/27/2020", "", "$0.00", "NOMAIL"},
+            {"ID", "Idaho", "--/--/----", "Wrong login credential", "$0.00", "HASMAIL"},
+            {"IA", "Iowa", "07/24/2020", "", "$0.00", "NOMAIL"},
+            {"KS", "Kansas", "06/08/2020", "", "$30.00 \t\t Late Fee", "HASMAIL"},
+            {"KY", "Kentucky", "09/10/2020", "", "$0.00", "NOMAIL"},
+            {"LA", "Louisiana", "08/26/2020", "", "$20.00 \t\t Late Fee", "NOMAIL"},
+            {"ME", "Maine", "06/04/2020", "", "$0.00", "NOMAIL"},
+            {"MD", "Maryland", "01/04/2020", "No tax data found", "$0.00", "NOMAIL"},
+            {"MA", "Massachusetts", "07/28/2020", "", "$0.00", "NOMAIL"},
+            {"MI", "Michigan", "07/28/2020", "", "$0.00", "NOMAIL"},
+            {"MN", "Minnesota", "07/09/2020", "", "$0.00", "NOMAIL"},
+            {"MS", "Mississippi", "07/28/2020", "", "$0.00", "NOMAIL"},
+            {"MO", "Missouri", "06/04/2020", "", "$0.00", "NOMAIL"},
+            {"NE", "Nebraska", "07/28/2020", "", "$0.00", "NOMAIL"},
+            {"NV", "Nevada", "06/04/2020", "", "$756.92 \t Business Tax", "HASMAIL"},
+            {"NH", "New Hampshire", "06/04/2020", "", "$0.00", "NOMAIL"},
+            {"NJ", "New Jersey", "01/17/2020", "No tax data found", "$0.00", "NOMAIL"},
+            {"NM", "New Mexico", "07/30/2020", "", "$5.00 \t\t Late Fee", "NOMAIL"},
+            {"NY", "New York", "07/30/2020", "", "$100.00 \t Late Fee", "NOMAIL"},
+            {"NC", "North Carolina", "07/30/2020", "", "$0.00", "NOMAIL"},
+            {"ND", "North Dakota", "--/--/----", "Wrong login credential", "$0.00", "NOMAIL"},
+            {"OH", "Ohio", "09/01/2020", "", "$0.00", "NOMAIL"},
+            {"OK", "Oklahoma", "--/--/----", "Wrong login credential", "$0.00", "NOMAIL"},
+            {"OR", "Oregon", "06/11/2020", "", "$0.00", "HASMAIL"},
+            {"PA", "Pennsylvania", "01/17/2020", "No tax data found", "$0.00", "NOMAIL"},
+            {"RI", "Rhode Island", "--/--/----", "No tax data found", "$0.00", "NOMAIL"},
+            {"SC", "South Carolina", "08/26/2020", "", "$0.00", "NOMAIL"},
+            {"SD", "South Dakota", "07/16/2020", "", "$80.00 \t\t Late Fee", "NOMAIL"},
+            {"TN", "Tennessee", "07/21/2020", "", "$120.00 \t Late Fee", "NOMAIL"},
+            {"TX", "Texas", "07/30/2020", "", "$51.00 \t\t Late Fee", "HASMAIL"},
+            {"UT", "Utah", "--/--/----", "Wrong login credential", "$0.00", "NOMAIL"},
+            {"VT", "Vermont", "07/30/2020", "", "$0.00", "NOMAIL"},
+            {"VA", "Virginia", "06/04/2020", "", "$144.08 \t Late Fee", "HASMAIL"},
+            {"WA", "Washington", "07/30/2020", "", "$0.00", "NOMAIL"},
+            {"WV", "West Virginia", "06/04/2020", "", "$60.00 \t\t Business Registration", "NOMAIL"},
+            {"WI", "Wisconsin", "07/30/2020", "", "$0.00", "NOMAIL"}        
         };
 
         Arrays.sort(allAccounts, new Comparator<String[]>() {
@@ -79,39 +79,70 @@ public class Tax {
             {"4", "AL", "08/07/2020", "L1322423712", "Late Fee Notice", "$50.00", "Wating for Hien"},
             {"5", "AL", "08/07/2020", "L0785552800", "Late Fee Notice", "$50.00", "Wating for Hien"},
             {"6", "AL", "08/07/2020", "L0919770528", "Late Fee Notice", "$50.00", "Wating for Hien"},
-            {"7", "VA", "08/17/2020", "Q0390999", "Late Fee Notice - Sale", "$71.77", "Wating for Hie"},
-            {"8", "VA", "08/17/2020", "Q0390999", "Late Fee Notice - Use", "$72.01", "Wating for Hie"},
+            {"7", "VA", "08/17/2020", "Q0390999", "Late Fee Notice - Sale", "$71.77", "Wating for Hien"},
+            {"8", "VA", "08/17/2020", "Q0390999", "Late Fee Notice - Use", "$72.01", "Wating for Hien"},
             {"9", "OR", "06/18/2020", "00689", "Annual Report", "$100.00", "Waiting for Hien"},
             {"10", "NV", "08/07/2020", "20003874010", "Monthly Statement", "$756.92", "Business tax - Hien"},
             {"11", "KS", "07/28/2020", "0101031961323", "Tax Bill", "$890.00", "$30 - Hien"},
             {"12", "AL", "07/26/2020", "L1976044960", "Statement", "$300.00", "Waiting for Hien"},
             {"13", "ID", "09/01/2020", "L0940296896", "Tax Notice", "$632.07", "Mail didn't received yet"},
             {"14", "ID", "06/18/2020", "L1397609152", "Tax Notice", "$527.03", "Waiting for mail with TAP details"},
-            {"15", "TX", "08/07/2020", "RT562226", "Tax Statement", "$51.00", "Waiting for Hien"}
+            {"15", "TX", "08/07/2020", "RT562226", "Tax Statement", "$51.00", "Waiting for Hien"},
+            {"16", "KS", "09/09/2020", "2020-ST-005584", "Tax Statement", "$902.00", "no sale account / Hien"},
+            {"17", "AL", "09/01/2020", "L1206357408", "Late Fee Notice", "$50.00", "Wating for Hien"},
+            {"18", "OR", "08/10/2020", "01903", "Annual report", "$60.64", "website is down till 09/13"},
+            {"19", "SD", "08/05/2020", "10351521ST082020P", "Late Fee", "$80.00", "Wating for Hien"},
+            {"20", "KS", "08/04/2020", "060120", "Final Assessment", "$400.00", "Wating for Hien"}
         };
       
         for (int i = 0; i < allAccounts.length; i++){    
-            if (vname.equals("ALL")){
-                String num = allAccounts[i][0];
+          String num = allAccounts[i][0];
                 String state = allAccounts[i][1];
                 String lastDate = allAccounts[i][2];
-                String hasmail = allAccounts[i][3];
+                String error = allAccounts[i][3];
+                String fee = allAccounts[i][4];
+                String hasmail = allAccounts[i][5];
+            if (vname.equals("STATE>ALL")){                
                 if(state.length() >= 20){
-                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ lastDate);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ lastDate +"\t"+ error);
                 }
                 else if(state.length() >= 8){
-                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ lastDate);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ lastDate +"\t"+ error);
                 } else {
-                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ lastDate);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ lastDate +"\t"+ error);
                 }
             }	
-            if (vname.equals(allAccounts[i][0])){
+            if (vname.equals("STATE>"+allAccounts[i][0])){
                 for(int j = 1; j < allAccounts[i].length-1; j++){
                     System.out.print("\t\t"+allAccounts[i][j]);
                 }
                 System.out.print(B);
                 break;
             } 
+            if (vname.equals("STATE>FEE")){
+              if(fee != "$0.00"){
+                if(state.length() >= 20){
+                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ fee);
+                }
+                else if(state.length() >= 8){
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ fee);
+                } else {
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ fee);
+                }
+              }
+            }
+            if (vname.equals("STATE>ERROR")){
+              if(error != ""){
+                if(state.length() >= 20){
+                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ error);
+                }
+                else if(state.length() >= 8){
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ error);
+                } else {
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ error);
+                }
+              }
+            }		
 
             if (vname.equals("MAIL>ALL")){
                 for(int j = 0; j < allMails.length; j++){
@@ -121,18 +152,15 @@ public class Tax {
             }
         
             if (vname.equals("HELP")){
-                System.out.println("\t####### List of commands #######");
+                System.out.println("\t### List of commands ###");
                 System.out.println("\t'help'\t\t\t\tfor information");
-                System.out.println("\t'all'\t\t\t\tfor whole mailer IDs list");
-                System.out.println("\tnumber\t\t\t\tsearch by number \t\t ex:26");
-                System.out.println("\t'check:'(+check number)\t\tsearch by check number \t\t ex:check:6145");
-                System.out.println("\t'id:'(+ID number)\t\tsearch by ID \t\t\t ex:id:MO-NJ_1518_2");
-                System.out.println("\t'state:'+state abbreviation\tsearch by State \t\t ex:state:tx");
-                System.out.println("\tdate\t\t\t\tsearch by sent Date \t\t ex:09/04/2020");
-                System.out.println("\t'b'(+Batch number)+':status'\tshipment status(batch#) \t ex:b2:status");
-                System.out.println("\t'b'(+Batch number)+':sap'\tSAP status(batch#) \t\t ex:b2:sap");
-                System.out.println("\tdate+':status'\t\t\tshipment status(date) \t\t ex:09/02/2020:status");
-                System.out.println("\tdate+':sap'\t\t\tSAP status(batch#) \t\t ex:09/02/2020:sap");
+                System.out.println("\t'state>all'\t\t\tfor whole satates & filing date list");
+                System.out.println("\t'state>'(+state)\t\tfor selected satate & filing date \t ex:state>ID");
+                System.out.println("\t'state>fee'\t\t\tfor whole satates & filing date list");
+                System.out.println("\t'state>error'\t\t\tfor whole satates & filing date list");
+                System.out.println("\t'mail>all'\t\t\tfor whole active mails list");
+                System.out.println("\t'mail>(+state)'\t\t\tfor all <selected state> active mails \t ex:mail>ID");
+                System.out.println("\t'mail>(+number)'\t\tfor more details about the mail\t\t ex:mail>13");
                 System.out.println("\texit\t\t\t\tfor quit from app"+B);
                 break;
             }		
@@ -152,19 +180,19 @@ public class Tax {
 
   public void creditCrator(){
     System.out.print(B);
-    for(int i =0; i<94; i++){System.out.print( "*" );}
+    for(int i =0; i<34; i++){System.out.print( "_" );}
     Tax checkPasswordName = new Tax();
     checkPasswordName.printCredit("Tax APP", true);
     checkPasswordName.printCredit("version 1.0.0", false);
     checkPasswordName.printCredit("by Sasan Bazade", false);	 
-    for(int i =0; i<94; i++){System.out.print( "*" );}
+    for(int i =0; i<34; i++){System.out.print( "_" );}
     System.out.print(B);
   }
   public void printCredit(String text, boolean brline){
     if(!brline){
-      System.out.print("\t\t\t\t\t" + text + B );
+      System.out.print(" " + text + B );
     } else {
-      System.out.print(B + "\t\t\t\t\t" + text + B );
+      System.out.print(B+B + " " + text + B );
     }    
   }
 
