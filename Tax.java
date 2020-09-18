@@ -52,7 +52,7 @@ public class Tax {
             {"RI", "Rhode Island", "--/--/----", "No tax data found", "$0.00", "NOPAYMENT"},
             {"SC", "South Carolina", "08/26/2020", "", "$0.00", "NOPAYMENT"},
             {"SD", "South Dakota", "07/16/2020", "", "$80.00 \t\t Late Fee", "Paid by mail 09/14/2020"},
-            {"TN", "Tennessee", "07/21/2020", "", "$120.00 \t Late Fee", "NOPAYMENT"},
+            {"TN", "Tennessee", "09/17/2020", "", "$120.00 \t Late Fee", "NOPAYMENT"},
             {"TX", "Texas", "07/30/2020", "", "$51.00 \t\t Late Fee", "NOPAYMENT"},
             {"UT", "Utah", "--/--/----", "Wrong login credential", "$0.00", "NOPAYMENT"},
             {"VT", "Vermont", "07/30/2020", "", "$0.00", "NOPAYMENT"},

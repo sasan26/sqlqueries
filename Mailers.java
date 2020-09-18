@@ -42,12 +42,12 @@ public class Mailers {
         {"20", "ID: \t\t CA-2015-2018-6", "SENT: \t\t 08/12/2020", "PIECES: \t 12,518", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t 6301", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-3"},
         {"21", "ID: \t\t CA-2015-2018-7", "SENT: \t\t 08/19/2020", "PIECES: \t 12,655", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t 6324", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-3"},
         {"22", "ID: \t\t CA-2015-2018-8", "SENT: \t\t 08/28/2020", "PIECES: \t 12,516", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t 6332", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-3"},
-        {"23", "ID: \t\t CA-2015-2018-9", "SENT: \t\t 09/03/2020", "PIECES: \t 12,360", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t 6368", "SAP: \t\t ", "STATUS: \t Printed", "BATCH-3"},
-        {"24", "ID: \t\t CA-2015-2018-10", "SENT: \t\t 09/16/2020", "PIECES: \t 12,317", "TRAY(1'): \t 10", "TRAY(2'): \t 13", "CHECK#: \t 6387", "SAP: \t\t ", "STATUS: \t Printed", "BATCH-3"},
-        {"25", "ID: \t\t CA-2015-2018-11", "SENT: \t\t ", "PIECES: \t 12,528", "TRAY(1'): \t 7", "TRAY(2'): \t 15", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-3"},
-        {"26", "ID: \t\t CA-2015-2018-12", "SENT: \t\t ", "PIECES: \t 12,460", "TRAY(1'): \t 10", "TRAY(2'): \t 13", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-3"},
-        {"27", "ID: \t\t CA-2015-2018-13", "SENT: \t\t ", "PIECES: \t 12,598", "TRAY(1'): \t 11", "TRAY(2'): \t 12", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-3"},
-        {"28", "ID: \t\t CA-2015-2018-14", "SENT: \t\t ", "PIECES: \t 12,536", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-3"},
+        {"23", "ID: \t\t CA-2015-2018-9", "SENT: \t\t 09/03/2020", "PIECES: \t 12,360", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t 6368", "SAP: \t\t YES", "STATUS: \t Printed", "BATCH-3"},
+        {"24", "ID: \t\t CA-2015-2018-10", "SENT: \t\t 09/16/2020", "PIECES: \t 12,317", "TRAY(1'): \t 10", "TRAY(2'): \t 13", "CHECK#: \t 6387", "SAP: \t\t YES", "STATUS: \t Printed", "BATCH-3"},
+        {"25", "ID: \t\t CA-2015-2018-11", "SENT: \t\t ", "PIECES: \t 12,528", "TRAY(1'): \t 7", "TRAY(2'): \t 15", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t Printed", "BATCH-3"},
+        {"26", "ID: \t\t CA-2015-2018-12", "SENT: \t\t ", "PIECES: \t 12,460", "TRAY(1'): \t 10", "TRAY(2'): \t 13", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t printing...", "BATCH-3"},
+        {"27", "ID: \t\t CA-2015-2018-13", "SENT: \t\t ", "PIECES: \t 12,598", "TRAY(1'): \t 11", "TRAY(2'): \t 12", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t printing...", "BATCH-3"},
+        {"28", "ID: \t\t CA-2015-2018-14", "SENT: \t\t ", "PIECES: \t 12,536", "TRAY(1'): \t 9", "TRAY(2'): \t 14", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t printing...", "BATCH-3"},
         // BATCH-4
         {"29", "ID: \t\t MN-MO_1518_1", "SENT: \t\t 07/24/2020", "PIECES: \t 9,800", "TRAY(1'): \t 4", "TRAY(2'): \t 11", "CHECK#: \t 6274", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-4"},
         {"30", "ID: \t\t MO-NJ_1518_2", "SENT: \t\t 07/29/2020", "PIECES: \t 9,771", "TRAY(1'): \t 7", "TRAY(2'): \t 10", "CHECK#: \t 6275", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-4"},
@@ -67,9 +67,17 @@ public class Mailers {
         {"42", "ID: \t\t TX-1519_4", "SENT: \t\t ", "PIECES: \t 10,758", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t HOLD", "BATCH-6"},
         {"43", "ID: \t\t TX-1519_5", "SENT: \t\t ", "PIECES: \t 14,350", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t HOLD", "BATCH-6"},
         // BATCH-7
-        {"44", "ID: \t\t GA-1519_1", "SENT: \t\t 09/11/2020", "PIECES: \t 12,736", "TRAY(1'): \t 5", "TRAY(2'): \t 14", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t Printed", "BATCH-7"},
-        {"45", "ID: \t\t GA-1519_2", "SENT: \t\t 09/18/2020", "PIECES: \t 9,152", "TRAY(1'): \t 4", "TRAY(2'): \t 11", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t Printing...", "BATCH-7"},
-        {"46", "ID: \t\t OR-1519_1", "SENT: \t\t 09/22/2020", "PIECES: \t 7,896", "TRAY(1'): \t 2", "TRAY(2'): \t 9", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-7"}
+        {"44", "ID: \t\t GA-1519_1", "SENT: \t\t 09/11/2020", "PIECES: \t 12,736", "TRAY(1'): \t 5", "TRAY(2'): \t 14", "CHECK#: \t 6392", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-7"},
+        {"45", "ID: \t\t GA-1519_2", "SENT: \t\t 09/18/2020", "PIECES: \t 9,152", "TRAY(1'): \t 4", "TRAY(2'): \t 11", "CHECK#: \t 6393", "SAP: \t\t YES", "STATUS: \t Shipped", "BATCH-7"},
+        {"46", "ID: \t\t OR-1519_1", "SENT: \t\t 09/22/2020", "PIECES: \t 7,896", "TRAY(1'): \t 2", "TRAY(2'): \t 9", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-7"},
+        // BATCH-8
+        {"47", "ID: \t\t GA-20152019-1", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"48", "ID: \t\t GA-20152019-2", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"49", "ID: \t\t GA-MN-NC-20152019-3", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"50", "ID: \t\t NC-20152019-4", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"51", "ID: \t\t NC-OH-20152019-5", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"52", "ID: \t\t OH-20152019-6", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"},
+        {"53", "ID: \t\t OH-SC-20152019-7", "SENT: \t\t ", "PIECES: \t ", "TRAY(1'): \t ", "TRAY(2'): \t ", "CHECK#: \t ", "SAP: \t\t ", "STATUS: \t ", "BATCH-8"}
       };
       
     for (int i = 0; i < allAccounts.length; i++){    

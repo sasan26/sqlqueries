@@ -12,5 +12,5 @@ public class testFile {
                     System.out.println("An error occurred.");
                     e.printStackTrace();
             }
-        };
+        }
 }
