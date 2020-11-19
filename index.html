@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+<body>
+    <div class="container"></div>
+        
+        <!-- hero -->
+        <div class="hero-image">
+            <!-- menu -->
+            <div class="topHeaderMenu" id="headerMenu">
+                <img src="sample-img.png" class="logo">
+                <a href="#" class="active">Home</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#" class="menu-lines" onclick="showMenu()">
+                <i class="fa fa-get-pocket"></i>
+                </a>
+            </div>
+            <div class="hero-main"> 
+                
+                <div class="hero-info">
+                    <h2>Lorem Ipsum</h2>
+                    <p>is not simply random text</p>
+                    <button>click</button>
+                </div>
+
+                <div class="hero-img">
+                    <img src="sample-img.png">
+                </div>
+            </div>
+            
+        </div>
+      
+        <!-- tab menu -->
+        <div class="tab-menu">
+            <div class="tabs">
+                <a class="active menu-l" href="#" onclick="tab(event, 'd1')"><i class="fa fa-ellipsis-h"></i></a> 
+                <a class="menu-l" href="#" onclick="tab(event, 'd2')"><i class="fa fa-ellipsis-h"></i></a> 
+                <a class="menu-l" href="#" onclick="tab(event, 'd3')"><i class="fa fa-ellipsis-h"></i></a> 
+                
+            </div>
+            <div id="d1" class="menu-d">
+                <strong>Where does it come from?</strong>
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
+                a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word 
+                in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by 
+                Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
+                a line in section 1.10.32.</p>
+            </div>  
+            <div id="d2" class="menu-d hidden">
+                <strong>Where can I get some?</strong>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even 
+                    slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators 
+                    on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+            </div>
+            <div id="d3" class="menu-d hidden">
+                <strong>Why do we use it?</strong>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal 
+                    distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as 
+                    their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+            </div>
+        </div>
+        <!-- Accordion menu -->
+        <div class="accordion-menu">
+            <button class="acc">tab</button>
+            <div class="accordion-tab"><br>
+                <strong>Where does it come from?</strong>
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
+                a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word 
+                in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by 
+                Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
+                a line in section 1.10.32.</p>
+            </div>
+
+            <button class="acc">tab</button>
+            <div class="accordion-tab">
+                <br>
+                <strong>Where can I get some?</strong>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even 
+                    slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators 
+                    on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+            </div>
+
+            <button class="acc">tab</button>
+            <div class="accordion-tab"><br>
+                <strong>Why do we use it?</strong>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal 
+                    distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as 
+                    their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+            </div>
+        </div>
+
+        <!-- section1 -->
+        <div class="section1">
+            <div class="section1-cl">
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+            </div>
+
+            <div class="section1-cl">
+                <img src="sample-img.png">
+            </div>
+        </div>
+
+        <!-- section2 -->
+        <div class="section2">
+            <div class="section2-cl">
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+            </div>
+
+            <div class="section2-cl">
+                <img src="sample-img.png">
+            </div>
+        </div>
+
+
+        <!-- Newsletter -->
+        <form>
+            <div class="newsletter-container">
+              <h3>Lorem ipsum</h3>
+            </div>
+          
+            <div class="newsletter-container form-container">
+              <input type="text" placeholder="Your Email">
+          
+              <input type="submit" value="Subscribe">
+            </div>
+        </form>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="f-cl cl-img"><img src="sample-img.png"></div>
+
+            <div class="f-cl">
+                <a href="#">link</a>
+                <a href="#">link</a>
+                <a href="#">link</a>
+            </div>
+
+            <div class="f-cl">
+                <a href="#">link</a>
+                <a href="#">link</a>
+                <a href="#">link</a>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy 2020 All right reserved</div>
+    </div>
+
+
+</body>
+</html> 

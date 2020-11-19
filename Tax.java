@@ -14,52 +14,52 @@ public class Tax {
     public static String B = System.getProperty("line.separator");
     public void vName(String vname){
         String[][] allAccounts = { 
-          {"AL", "Alabama", "10/06/2020", "", "$50.00 \t\t Late Fee", "NOPAYMENT"},
-          {"AK", "Alaska", "--/--/----", "No login credential", "$0.00", "NOPAYMENT"},
-          {"AZ", "Arizona", "10/02/2020", "", "$0.00", "NOPAYMENT"},
-          {"AR", "Arkansas", "07/27/2020", "", "$0.00", "NOPAYMENT"},
-          {"CO", "Colorado", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"CT", "Connecticutt", "10/06/2020", "", "$0.00", "NOPAYMENT"},
-          {"DC", "District of Columbia", "06/04/2020", "", "$0.00", "NOPAYMENT"},
-          {"FL", "Florida", "08/26/2020", "", "$100.00 \t Late Fee", "Paid by mail 09/14/2020"},
-          {"GA", "Georgia", "10/02/2020", "", "$110.00", "Paid by mail 09/14/2020"},
-          {"HI", "Hawaii", "07/27/2020", "", "$0.00", "NOPAYMENT"},
-          {"IL", "Illinois", "10/06/2020", "", "$0.00", "NOPAYMENT"},
-          {"ID", "Idaho", "10/12/2020", "", "$1,162.56", "NOPAYMENT"},
-          {"IA", "Iowa", "07/24/2020", "", "$0.00", "NOPAYMENT"},
-          {"KS", "Kansas", "10/07/2020", "", "$30.00 \t\t Late Fee", "NOPAYMENT"},
-          {"KY", "Kentucky", "10/06/2020", "", "$0.00", "Paid by mail 09/14/2020"},
-          {"LA", "Louisiana", "08/26/2020", "", "$20.00 \t\t Late Fee", "NOPAYMENT"},
-          {"ME", "Maine", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"MD", "Maryland", "--/--/----", "No tax data found", "$0.00", "NOPAYMENT"},
-          {"MA", "Massachusetts", "07/28/2020", "", "$0.00", "NOPAYMENT"},
-          {"MI", "Michigan", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"MN", "Minnesota", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"MS", "Mississippi", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"MO", "Missouri", "06/04/2020", "", "$0.00", "NOPAYMENT"},
-          {"NE", "Nebraska", "10/06/2020", "", "$0.00", "NOPAYMENT"},
-          {"NV", "Nevada", "06/04/2020", "", "$756.92 \t Business Tax", "NOPAYMENT"},
-          {"NH", "New Hampshire", "06/04/2020", "", "$0.00", "NOPAYMENT"},
-          {"NJ", "New Jersey", "10/06/2020", "", "$0.00", "NOPAYMENT"},
-          {"NM", "New Mexico", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"NY", "New York", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"NC", "North Carolina", "10/02/2020", "", "$0.00", "NOPAYMENT"},
-          {"ND", "North Dakota", "--/--/----", "Wrong login credential", "$0.00", "NOPAYMENT"},
-          {"OH", "Ohio", "10/02/2020", "", "$0.00", "NOPAYMENT"},
-          {"OK", "Oklahoma", "--/--/----", "Wrong login credential", "$0.00", "NOPAYMENT"},
-          {"OR", "Oregon", "06/11/2020", "", "$0.00", "NOPAYMENT"},
-          {"PA", "Pennsylvania", "--/--/----", "No tax data found", "$0.00", "NOPAYMENT"},
-          {"RI", "Rhode Island", "--/--/----", "No tax data found", "$0.00", "NOPAYMENT"},
-          {"SC", "South Carolina", "08/26/2020", "", "$0.00", "NOPAYMENT"},
-          {"SD", "South Dakota", "10/01/2020", "", "$10.00 \t\t Late Fee", "NOPAYMENT"},
-          {"TN", "Tennessee", "09/17/2020", "", "$0.00", "NOPAYMENT"},
-          {"TX", "Texas", "10/05/2020", "", "$0.00", "NOPAYMENT"},
-          {"UT", "Utah", "--/--/----", "Wrong login credential", "$0.00", "NOPAYMENT"},
-          {"VT", "Vermont", "07/30/2020", "", "$0.00", "NOPAYMENT"},
-          {"VA", "Virginia", "10/01/2020", "", "$0.00", "NOPAYMENT"},
-          {"WA", "Washington", "07/30/2020", "", "$0.00", "NOPAYMENT"},
-          {"WV", "West Virginia", "06/04/2020", "", "$60.00 \t\t Business Registration", "NOPAYMENT"},
-          {"WI", "Wisconsin", "07/30/2020", "", "$0.00", "NOPAYMENT"}        
+          {"AL", "Alabama", "11/09/2020", "Monthly", "", "$50.00 \t\t Late Fee", "NOPAYMENT"},
+          {"AK", "Alaska", "--/--/----", "", "No login credential", "$0.00", "NOPAYMENT"},
+          {"AZ", "Arizona", "10/02/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"AR", "Arkansas", "07/27/2020", "", "authentication", "$0.00", "NOPAYMENT"},
+          {"CO", "Colorado", "10/01/2020", "12/31/2020", "Renew License", "$0.00", "NOPAYMENT"},
+          {"CT", "Connecticutt", "11/09/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"DC", "District of Columbia", "06/04/2020", "", "authentication", "$0.00", "NOPAYMENT"},
+          {"FL", "Florida", "08/26/2020", "Dec 2020", "", "$100.00 \t Late Fee", "Paid by mail 09/14/2020"},
+          {"GA", "Georgia", "11/09/2020", "Monthly", "", "$110.00", "Paid by mail 09/14/2020"},
+          {"HI", "Hawaii", "07/27/2020", "", "authentication", "$0.00", "NOPAYMENT"},
+          {"IL", "Illinois", "10/06/2020", "Jan 2020", "", "$0.00", "NOPAYMENT"},
+          {"ID", "Idaho", "10/12/2020", "12/31/2020", "", "$1,162.56", "NOPAYMENT"},
+          {"IA", "Iowa", "07/24/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"KS", "Kansas", "10/07/2020", "12/31/2020", "", "$30.00 \t\t Late Fee", "NOPAYMENT"},
+          {"KY", "Kentucky", "10/06/2020", "Monthly", "", "$0.00", "Paid by mail 09/14/2020"},
+          {"LA", "Louisiana", "08/26/2020", "11/30/2020", "", "$20.00 \t\t Late Fee", "NOPAYMENT"},
+          {"ME", "Maine", "10/01/2020", "01/01/2021", "", "$0.00", "NOPAYMENT"},
+          {"MD", "Maryland", "--/--/----", "", "No tax data found", "$0.00", "NOPAYMENT"},
+          {"MA", "Massachusetts", "07/28/2020", "", "authentication", "$0.00", "NOPAYMENT"},
+          {"MI", "Michigan", "10/01/2020", "", "", "$0.00", "NOPAYMENT"},
+          {"MN", "Minnesota", "10/01/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"MS", "Mississippi", "10/31/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"MO", "Missouri", "06/04/2020", "Annual", "", "$0.00", "NOPAYMENT"},
+          {"NE", "Nebraska", "10/06/2020", "", "", "$0.00", "NOPAYMENT"},
+          {"NV", "Nevada", "06/04/2020", "12/31/2020", "", "$756.92 \t Business Tax", "NOPAYMENT"},
+          {"NH", "New Hampshire", "06/04/2020", "Annual", "", "$0.00", "NOPAYMENT"},
+          {"NJ", "New Jersey", "10/06/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"NM", "New Mexico", "10/01/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"NY", "New York", "10/01/2020", "", "Website is Down", "$0.00", "NOPAYMENT"},
+          {"NC", "North Carolina", "10/02/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"ND", "North Dakota", "--/--/----", "", "Wrong login credential", "$0.00", "NOPAYMENT"},
+          {"OH", "Ohio", "10/02/2020", "", "", "$0.00", "NOPAYMENT"},
+          {"OK", "Oklahoma", "--/--/----", "", "Wrong login credential", "$0.00", "NOPAYMENT"},
+          {"OR", "Oregon", "06/11/2020", "", "", "$0.00", "NOPAYMENT"},
+          {"PA", "Pennsylvania", "--/--/----", "", "No tax data found", "$0.00", "NOPAYMENT"},
+          {"RI", "Rhode Island", "--/--/----", "", "No tax data found", "$0.00", "NOPAYMENT"},
+          {"SC", "South Carolina", "10/28/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"SD", "South Dakota", "10/01/2020", "Monthly", "", "$10.00 \t\t Late Fee", "NOPAYMENT"},
+          {"TN", "Tennessee", "11/09/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"TX", "Texas", "10/05/2020", "12/31/2020", "", "$0.00", "NOPAYMENT"},
+          {"UT", "Utah", "--/--/----", "", "Wrong login credential", "$0.00", "NOPAYMENT"},
+          {"VT", "Vermont", "07/30/2020", "", "authentication", "$0.00", "NOPAYMENT"},
+          {"VA", "Virginia", "11/09/2020", "Monthly", "", "$0.00", "NOPAYMENT"},
+          {"WA", "Washington", "08/31/2020", "", "", "$0.00", "NOPAYMENT"},
+          {"WV", "West Virginia", "06/04/2020", "", "authentication", "$60.00 \t\t Business Registration", "NOPAYMENT"},
+          {"WI", "Wisconsin", "07/30/2020", "", "authentication", "$0.00", "NOPAYMENT"}        
         };
 
         Arrays.sort(allAccounts, new Comparator<String[]>() {
@@ -78,7 +78,6 @@ public class Tax {
             {"16", "KS", "09/09/2020", "2020-ST-005584", "Tax Statement", "$902.00", "Already gave it to Hien | no sae account"},
             {"18", "OR", "08/10/2020", "01903", "Annual report", "$60.64", "waiting"},
             {"25", "FL", "09/15/2020", "DR-307004", "Notice of Final Assessment", "$1415.68", "Flied - waiting for update"},
-            {"26", "OH", "09/20/2020", "0027 029762", "Collection", "$2,641.52", "Flied - waiting for update"},
             {"27", "SD", "10/06/2020", "12894", "Payment", "$10.00", "PAID - waiting for update"}
         };
       
@@ -86,22 +85,23 @@ public class Tax {
           String num = allAccounts[i][0];
                 String state = allAccounts[i][1];
                 String lastDate = allAccounts[i][2];
-                String error = allAccounts[i][3];
-                String fee = allAccounts[i][4];
-                String payment = allAccounts[i][5];
+                String nextDate = allAccounts[i][3];
+                String fee = allAccounts[i][5];
+                String payment = allAccounts[i][6];
+                String error = allAccounts[i][4];
             if (vname.equals("STATE>ALL")){                
                 if(state.length() >= 20){
-                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ lastDate +"\t"+ error);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t"+ lastDate +"\t" + nextDate + "\t\t" + error);
                 }
                 else if(state.length() >= 8){
-                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ lastDate +"\t"+ error);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t"+ lastDate +"\t" + nextDate + "\t\t" + error);
                 } else {
-                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ lastDate +"\t"+ error);
+                    System.out.println("\t\t"+num +"\t"+ state +"\t\t\t"+ lastDate +"\t" + nextDate + "\t\t" + error);
                 }
             }	
             if (vname.equals("STATE>"+allAccounts[i][0])){
                 for(int j = 1; j < allAccounts[i].length; j++){
-                    System.out.print("\t\t"+allAccounts[i][j]);
+                    System.out.print("\t\t"+allAccounts[i][j]+"\n");
                 }
                 System.out.print(B);
                 break;
