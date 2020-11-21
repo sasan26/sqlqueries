@@ -1,0 +1,24 @@
+.tab-menu-bar {
+    width: 100%;
+    background-color: #99ccff;
+    overflow: auto;
+  }
+  
+  .tab-menu-bar a {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+    color: #FFF;
+    font-size: 36px;
+    text-decoration: none;
+  }
+  
+  .tab-menu-bar a:hover {
+    background-color: #66b3ff;
+  }
+  
+  .tab-menu-bar .active {
+    background-color: #003366;
+  }
