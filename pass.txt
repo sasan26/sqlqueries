@@ -1,1 +1,7 @@
-pass
+REMOTE, Sasan , Skippy92831!, 
+SQL, Sasan , SasanSQL92831!, 
+FILEZILLA, 10.10.0.33:21 , vftpadmin , 862457Ftp! ,
+3CX,Admin , !UTk3n6iftbcggenirltrtddgljjdggne,
+EMAILADMIN,sasan@discountedwheelwarehouse.net , Skippy92831!,
+TSHEET,itdepartment2@dwwclub.com , Sasan6081!,
+GOOGLE,itdepartment2@dwwclub.com , skippy92831
