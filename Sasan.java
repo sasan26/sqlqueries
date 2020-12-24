@@ -1,10 +1,9 @@
-import java.util.Scanner; // Import the Scanner class to read text files
+
 import java.io.*;
 import java.awt.event.*; 
 import java.awt.*; 
 import javax.swing.*;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class Sasan {
     // public static String Pass = "1360";
@@ -13,6 +12,7 @@ public class Sasan {
     public static String B = System.getProperty("line.separator");
     public static String[] files = {"sasan.txt"};
     public static String[] passwordSas = {"sasan"};
+    public static String taxDatas2 = "";
 
    public void output(boolean batchFind, String bid,String date,String p,String tray1, String tray2, String checknum, String sapimport, String st, String batch){        
         System.out.println("\t Id: \t\t" + bid);
@@ -47,7 +47,7 @@ public class Sasan {
 
     public void changeDb(String userinput, String dbinput){
         switch (userinput){
-            case "DB>MAILERS": files[0] = "mailers.txt"; System.out.println(B+"\t\t\tCurrent database => [ Mailers ]"); break;  // mailers.txt
+            case "DB>MAILERS": files[0] = "mailers2.csv"; System.out.println(B+"\t\t\tCurrent database => [ Mailers ]"); break;  // mailers.txt
             case "DB>TAX": files[0] = "tax.txt"; System.out.println(B+"\t\t\tCurrent database => [ Tax ]"); break;  // tax.txt
             default: passpopup(); if(passwordSas[0].equals("sasi")){files[0] = "pass.txt"; System.out.println(B+"\t\t\tCurrent database => [ Password ]");} else{System.out.println("\t\t\tWrong Password!");}  // pass.txt
             }  
@@ -77,6 +77,9 @@ public class Sasan {
             System.out.print( B );
         }		
            
+        // ************************************************************************************************************************
+        //                                                         Passwords
+        // ************************************************************************************************************************
 
         if(vname.equals("DB>PASSWORD")){ changeDb( vname, "DB>PASSWORD"); }
         if(files[0].equals("pass.txt")){
@@ -98,14 +101,17 @@ public class Sasan {
             }
         }
 
+        // ************************************************************************************************************************
+        //                                                         Mailers
+        // ************************************************************************************************************************
+
         if(vname.equals("DB>MAILERS")){ changeDb( vname, "DB>MAILERS"); }
-        if(files[0].equals("mailers.txt")){ 
+        if(files[0].equals("mailers2.csv")){  
             try {
                 File myObj = new File(files[0]);
                 Scanner myReader = new Scanner(myObj);
-                
-                
-                while (myReader.hasNextLine()) {
+                                
+                while (myReader.hasNextLine()) { 
                     String data = myReader.nextLine();
                     String datas [] = data.split(",");
                     // int seprator = data.indexOf("|");
@@ -119,13 +125,9 @@ public class Sasan {
                     String sap = datas[7].substring(4,datas[7].length());
                     String status = datas[8].substring(7,datas[8].length());
                     String batch = datas[9].substring(6,datas[9].length()); 
-
+                    
                     if (vname.equals("ALL")){
-                        var i = 0;
-                        while ( i < datas.length){
-                            System.out.println("\t" + num + "\t" + batchId);
-                            break;
-                        }
+                        System.out.println("\t" + num + "\t" + batchId);
                     }
 
                     if(vname.equals(num)){
@@ -173,16 +175,131 @@ public class Sasan {
                             output(false, batchId, sent, pieces, t1, t2, check, sap, status, batch);  
                         } 
                     } 
-                }
-                System.out.println(B);
+                } 
+                System.out.println(B); 
                 myReader.close();
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
         }
+
+        // ************************************************************************************************************************
+        //                                                         TAX
+        // ************************************************************************************************************************
+        
+        if(vname.equals("DB>TAX")){ changeDb( vname, "DB>TAX"); }
+        if(files[0].equals("tax.txt")){
+            try {
+                File myObj2 = new File(files[0]);
+                Scanner myReader2 = new Scanner(myObj2);
+                
+                
+                while (myReader2.hasNextLine()) {
+                    String taxData = myReader2.nextLine();
+                    // taxDatas2 = taxDatas2.concat(taxData);  
+                    String taxDatas [] = taxData.split(",");
+                    // int seprator = data.indexOf("|");
+                   
+                    String abbr = taxDatas[0];
+                    String state = taxDatas[1]; 
+                    String filing = taxDatas[2];
+                    String period = taxDatas[3];
+                    String error = taxDatas[4];
+                    String balance = taxDatas[5];
+                    String payment = taxDatas[6];
+                    String taxInfo [] = {"State Name      >","Last Filing     >","Next Filing     >","Error Message   >","Balance Due     >","Payment Status  >"};
+                    Integer stateLn;
+                    if(state.length() >= 20){ stateLn = 20;} else if(state.length() >= 8){ stateLn = 8;} else { stateLn = 1; }
+
+                    if (vname.equals("STATE>ALL")){
+                        // taxoutput( abbr, state, filing, period, "no error", null);
+                        
+                        switch(stateLn){
+                            case 20:
+                                System.out.println("\t\t" + abbr + "\t" + state + "\t" + filing + "\t" + period );
+                                break;
+                            case 8:
+                                System.out.println("\t\t" + abbr + "\t" + state + "\t\t" + filing + "\t" + period );
+                                break;
+                            default:
+                                System.out.println("\t\t" + abbr + "\t" + state + "\t\t\t" + filing + "\t" + period );
+                        }
+                       
+                    }
+
+                    if (vname.equals("STATE>BALANCE")){ 
+                        // taxoutput( abbr, state, null, null, " ", balance);
+                        if(!balance.equals("0.00")){
+                            switch(stateLn){
+                                case 20:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t$ " + balance );
+                                    break;
+                                case 8:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t\t$ " + balance );
+                                    break;
+                                default:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t\t\t$ " + balance );
+                            }
+                        }
+                    }
+
+                    if (vname.equals("STATE>ERROR")){
+                        if(error.length() >1){
+                            // taxoutput( abbr, state, null, null, error, null);
+                            switch(stateLn){
+                                case 20:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t" + error );
+                                    break;
+                                case 8:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t\t" + error );
+                                    break;
+                                default:
+                                    System.out.println("\t\t" + abbr + "\t" + state + "\t\t\t" + error );
+                            }
+                        }
+                    }
+
+                    if (vname.equals("STATE>DATE")){    
+                        System.out.println( "\t\t" + abbr + "\t" +  filing);                                                
+                    }
+
+                    if (vname.equals("STATE>PAYMENT")){ 
+                        if (!payment.equals("NOPAYMENT")){   
+                            System.out.println( "\t\t" + abbr + "\t" +  payment);
+                        }                                                
+                    }
+
+                    if (vname.equals("STATE>"+taxDatas[0])){
+                        for(int j = 1; j < taxDatas.length; j++){                           
+                            switch(j){                               
+                                default:
+                                System.out.print( "\t\t" + taxInfo[j-1] + "\t"+taxDatas[j]+"\n");
+                                break;
+                            }
+
+                        }                   
+                        System.out.print(B);
+                        break;
+                    } 
+                }
+                
+                // String taxDatas [] = taxDatas2.split(",");
+                // for(int i=0; i < taxDatas.length; i++){
+                //     System.out.println(taxDatas[i]);
+                // }
+
+                myReader2.close();
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        }
         
     }
+
+    
 
     public void creditCrator(){
         System.out.print(B);
