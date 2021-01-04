@@ -133,11 +133,13 @@ public class Sasaccessdb {
             }
         }
         else if(files[0].contains("SAP>")){
-            if(sap == ""){
-                System.out.println("\t\t [ ]       => " + batchId);
+            if(sap.equals("+")){
+                // System.out.println("\t\t [ ]       => " + batchId);
+                System.out.println("\t\t [+] ADDED => "+batchId);
             }
             else{
-                System.out.println("\t\t [+] ADDED => "+batchId);  
+                // System.out.println("\t\t [+] ADDED => "+batchId); 
+                System.out.println("\t\t [ ]       => " + batchId); 
             }
         }
         else if(files[0].equals("DATE>ALL")){
@@ -319,14 +321,27 @@ public class Sasaccessdb {
   
         try {
  
+            String sasId = sasDb.substring(0,2);
+            String dodor =  sasDb.substring(3,sasDb.length());
+            Integer pos = null;
+
+            for(Integer i = 0; i< dodor.length(); i++){
+                char devider = dodor.charAt(i);
+                String deviderSas = Character.toString(devider);
+                
+                if(deviderSas.equals("/") ){ pos = i; break;}
+                
+            }
+            
+            String clSas = dodor.substring(0,pos);
+            String dataSas = dodor.substring(pos + 1, dodor.length());
+
             connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
-            String sas = "UPDATE LIST SET [nextFiling] = '00/2211' WHERE ID = 04 ";
+            String sas = "UPDATE " + selectedDb[0] + " SET [" + clSas + "] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
             updateData = connection.prepareStatement(sas);
 
-            if(sasDb.equals("4")){
-                updateData.executeUpdate();
-                System.out.println("\t\t[ UPDATED ]");
-            }                  
+            updateData.executeUpdate();
+            System.out.println("\t\trow " + sasId + "\t[ UPDATED ]");            
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
@@ -440,11 +455,11 @@ public class Sasaccessdb {
             else if(vname.equals("ERROR")){
                 vars("Tax", "SELECT * FROM List WHERE ALERT <> '' " );  
                 System.out.print(B); 
-            }
-            else if(vname.contains("SET>")){
-                updateRecord(vname.substring(4, vname.length()));  
-                System.out.print(B); 
-            }
+            }            
+        }
+        if(vname.contains("SET>")){
+            updateRecord(vname.substring(4, vname.length()));  
+            System.out.print(B); 
         }           
         
     }
@@ -459,7 +474,7 @@ public class Sasaccessdb {
         if(Pass.equals("sasan")){ 
             while ( Pass.equals("sasan") ) {
                 try {
-                String name = in.next(); 
+                String name = in.nextLine(); 
                 if(name.equals("exit")){ 
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); 
                     System.exit(0);
