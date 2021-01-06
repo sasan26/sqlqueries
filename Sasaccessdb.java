@@ -8,10 +8,12 @@ import java.util.*;
  
 public class Sasaccessdb {
 
+    public static char[] userString = System.console().readPassword("%s", "SasanApp> Enter username");
+    public static String User = new String(userString);
     public static String B = System.getProperty("line.separator");
     public static String[] files = {"sasan"};
     public static String[] selectedDb = {"sasan"};
-    public static String Pass = "sasan";
+    public static String Pass = "";
     public static String numbatch;
     public static String idBatch;
     public static String datebatch;
@@ -46,6 +48,41 @@ public class Sasaccessdb {
     public static String taxLn;
     public static String taxNote;
     public static String nextFiling;
+
+    public void checkPassword(){
+        System.out.println("SasanApp> username: " + User);
+        System.out.print("SasanApp> Password: ");
+        for(int i=0; i< Pass.length(); i++){ 
+          System.out.print("*");
+        } 
+        System.out.print(B);
+    }
+
+    public void passpopup(){
+        final JPasswordField pf = new JPasswordField();
+
+        JOptionPane pane = new JOptionPane(pf, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = pane.createDialog("ENTER SUPERUSER PASSWORD");
+       
+        dialog.addComponentListener(new ComponentListener(){
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                pf.requestFocusInWindow();
+            }
+            @Override public void componentHidden(ComponentEvent e) {}
+            @Override public void componentResized(ComponentEvent e) {}
+            @Override public void componentMoved(ComponentEvent e) {}
+            });
+
+        dialog.setVisible(true);
+
+        char[] password2 = pf.getPassword();
+        Pass = new String(password2);
+
+
+
+    }
 
     public void printTaxRs(String taxId, String taxState, String taxAlert, String taxDate, String taxBalance, String taxUser, String taxPass, String taxPin, String taxLn, String taxNote, String nextFiling){
         String tId = taxId.substring(5, taxId.length());
@@ -124,7 +161,7 @@ public class Sasaccessdb {
             }
             else{
                 switch (status){
-                    case "Ready": System.out.println("\t\t| ready   | => " + batchId ); break;
+                    case "ready": System.out.println("\t\t| ready   | => " + batchId ); break;
                     case "printed": System.out.println("\t\t| PRINTED | => " + batchId ); break;
                     case "shipped": System.out.println("\t\t| SHIPPED | => " + batchId ); break;
                     case "hold": System.out.println("\t\t| HOLD    | => " + batchId ); break;
@@ -134,11 +171,9 @@ public class Sasaccessdb {
         }
         else if(files[0].contains("SAP>")){
             if(sap.equals("+")){
-                // System.out.println("\t\t [ ]       => " + batchId);
                 System.out.println("\t\t [+] ADDED => "+batchId);
             }
             else{
-                // System.out.println("\t\t [+] ADDED => "+batchId); 
                 System.out.println("\t\t [ ]       => " + batchId); 
             }
         }
@@ -197,13 +232,12 @@ public class Sasaccessdb {
     }
         else{
 
-            System.out.println( "\n\t[" + batchNum + "] " + batchId + "\n" );
+            System.out.println( "\n\t[" + batchNum + "] " + batchId);
             System.out.println( 
-                    "\n\t" +
-                    "Batch\t\t" + batch + "\n\t" + 
-                    "Date\t\t" + sentDate + "\n\tState\t\t" + state + "\n\tCheck\t\t" + check + "\n\tPieces\t\t" +
-                    piece + "\n\tTray-1\t\t" + t1 + "\n\tTray-2\t\t" + t2 + "\n\tSAP\t\t" + 
-                    sap + "\n\tStatus\t\t" + status 
+                "\n\t----------------------------" +
+                    "\n\tBatch\t\t" + batch + "\n\tDate\t\t" + sentDate + "\n\tState\t\t" + state + "\n\tCheck\t\t" + check + "\n\t----------------------------" + "\n\tPieces\t\t" +
+                    piece + "\n\tTray-1\t\t" + t1 + "\n\tTray-2\t\t" + t2 + "\n\t----------------------------" + "\n\tSAP\t\t" + 
+                    sap + "\n\tStatus\t\t" + status + "\n\t----------------------------" 
                     );
     
             System.out.print(B);
@@ -368,19 +402,45 @@ public class Sasaccessdb {
 
     public void vName(String vname) {
         files[0] = vname;
+        if(vname.equals("HELP>")){
+            System.out.println("\n\n\t\tdb>[database name]\t\t\tfor connect to a data base");
+            System.out.println("\t\thelp>\t\t\t\t\tfor more information");
+            System.out.println("\t\texit\t\t\t\t\tfor quit from app");
+            System.out.println("\t\t-----------------------------------------------------------------------------------------------");
+            System.out.println("\n\t\t[ Mailers data base ]\n");
+            System.out.println("\t\tall\t\t\t\t\tfor whole list of batch Ids");
+            System.out.println("\t\tnum>[number]\t\t\t\tshow details of a batch id search by number");
+            System.out.println("\t\tbatch>[number]\t\t\t\tshow full details of a batch");
+            System.out.println("\t\tdate>[date]\t\t\t\tshow details of batch id(s) search by date");
+            System.out.println("\t\tstate>[state]\t\t\t\tdetails of batch id(s) search by state abbreviation");
+            System.out.println("\t\tcheck>[number]\t\t\t\tshow details of a batch id search by check number");
+            System.out.println("\t\tdate>all\t\t\t\tshow whole list of dates and batch ids");
+            System.out.println("\t\tcheck>all\t\t\t\tshow whole list of check numbers and batch ids");
+            System.out.println("\t\tstatus>[number]\t\t\t\tshow status details of a whole batch");
+            System.out.println("\t\tsap>[number]\t\t\t\tshow sap details of a whole batch");
+            System.out.println("\t\t-----------------------------------------------------------------------------------------------");
+            System.out.println("\n\t\t[ Tax data base ]\n");
+            System.out.println("\t\tall\t\t\t\t\tfor whole list of states");
+            System.out.println("\t\tnum>[number]\t\t\t\tshow details of a state search by number");
+            System.out.println("\t\tstate>[state]\t\t\t\tshow details of a state search by state name");
+            System.out.println("\t\tdate\t\t\t\t\twhole list of states sort by last filing date");
+            System.out.println("\t\tdue\t\t\t\t\twhole list of states sort by next filing due date");
+            System.out.println("\t\t-----------------------------------------------------------------------------------------------");
+            System.out.println("\n\t\t[ Update Data ]\n");
+            System.out.println("\t\tset>[number]/[column]/[new data]\tfor update a record.");
+        }
+
         if(vname.equals("DB>MAILERS")){
             selectedDb[0] = "Mailers"; 
-            System.out.println("\n\t\t\t======================================");
-            System.out.println("\n\t\t\t  Mailers database has been selected");
-            System.out.println("\n\t\t\t======================================");
+            System.out.println("\n\t\t>> Conected to the Mailers database {M}");
+            System.out.println("\t\t=======================================");
         }
         else if(vname.equals("DB>TAX")){
             selectedDb[0] = "List";
-            System.out.println("\n\t\t\t===================================");
-            System.out.println("\n\t\t\t  Tax database has been selected");
-            System.out.println("\n\t\t\t===================================");
+            System.out.println("\n\t\t>> Conected to the Tax database {T}");
+            System.out.println("\t\t===================================");
         }
-        if(selectedDb[0] == "Mailers"){
+        if(selectedDb[0] == "Mailers"){ 
             if(vname.equals("ALL") || vname.equals("DATE>ALL") || vname.equals("CHECK>ALL")){
                 vars("Mailers", "SELECT * FROM " + selectedDb[0]);  
                 System.out.print(B);             
@@ -424,7 +484,7 @@ public class Sasaccessdb {
                 System.out.print(B);
             }
         }
-        else if(selectedDb[0] == "List"){ 
+        else if(selectedDb[0] == "List"){  
             if(vname.contains("NUM>")){
                 String numTax = vname.substring(4,vname.length());
                 vars("Tax", "SELECT * FROM List WHERE ID='" + numTax + "'");
@@ -460,24 +520,37 @@ public class Sasaccessdb {
         if(vname.contains("SET>")){
             updateRecord(vname.substring(4, vname.length()));  
             System.out.print(B); 
-        }           
-        
+        }  
+        System.out.print("$ ");         
     }
 
 
-    public static void main(String[] args) {
-          
-        Sasaccessdb mailersData = new Sasaccessdb();
+    public static void main(String[] args) {        
+        Sasaccessdb mailersData = new Sasaccessdb();    
+        mailersData.passpopup();
+        mailersData.checkPassword();
         Scanner in = new Scanner(System.in);    
  
+        System.out.println("===============================================================================================================");
+        System.out.println("\t\t Name: \t\tSasanApp");
+        System.out.println("\t\t Version: \t3.2.0");
+        System.out.println("\t\t Author: \tSasan Bazade");
+        System.out.println("===============================================================================================================");
+        System.out.println("\t\t\t\t\t\t\t\t\t\ttype help> for more information");
             
-        if(Pass.equals("sasan")){ 
+        if(Pass.equals("sasan") && User.equals("sasan")){ 
             while ( Pass.equals("sasan") ) {
                 try {
                 String name = in.nextLine(); 
+
                 if(name.equals("exit")){ 
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); 
                     System.exit(0);
+                }
+                if(name.equals("error")){ 
+                    new ProcessBuilder("cmd", "/c", "color fc").inheritIO().start().waitFor(); 
+                } else{
+                    new ProcessBuilder("cmd", "/c", "color f0").inheritIO().start().waitFor();
                 }
                 mailersData.vName(name.toUpperCase());
                 } catch (Exception e) { 
@@ -485,7 +558,7 @@ public class Sasaccessdb {
                 }
             }    
         } 
-        else { System.out.print("WRONG PASSWORD!"); }
+        else { System.out.print("\t\t\tInvalid username or password!"); }
         in.close();         
     }
 }
