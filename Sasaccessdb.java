@@ -414,8 +414,10 @@ public class Sasaccessdb {
 
             connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
             String sas = "UPDATE " + selectedDb[0] + " SET [" + clSas + "] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            String newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','" + clSas + "','" + dataSas.toLowerCase() + "','Mailers')";
             updateData = connection.prepareStatement(sas);
-
+            updateData.executeUpdate();
+            updateData = connection.prepareStatement(newlog);
             updateData.executeUpdate();
             System.out.println("\t\trow " + sasId + "\t[ UPDATED ]");            
                           
@@ -457,13 +459,13 @@ public class Sasaccessdb {
  
             String sasId = sasDb.substring(0,2);
             String dataSas =  sasDb.substring(3,sasDb.length());
-            
-            System.out.println(sasId + "\t\t" + dataSas);
 
             connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
             String sas = "UPDATE webLinks SET [links] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            String newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','links','" + dataSas.toLowerCase() + "','Weblinks')";
             updateData = connection.prepareStatement(sas);
-
+            updateData.executeUpdate();
+            updateData = connection.prepareStatement(newlog);
             updateData.executeUpdate();
             System.out.println("\t\trow " + sasId + "\t[ UPDATED ]");            
                           
@@ -552,18 +554,24 @@ public class Sasaccessdb {
                 if(SasPass.User.equals(oldu) || SasPass.User.equals("sasan")){
                     if(cl.equals("USER")){
                         String sas = "UPDATE Credentials SET sasUser = '" + newu + "' WHERE sasUser = '" + oldu + "'";
+                        String newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','sasUser','" + newu + "','Credentials')";
                         updateData = connection.prepareStatement(sas);
                         System.out.println("\n\n\t\tyour username: (" + oldu + ") changed to [ " + newu + " ]"); 
                         sasuser = newu;
-                        SasPass.User = newu;
+                        // SasPass.User = newu;
+                        updateData.executeUpdate();
+                        updateData = connection.prepareStatement(newlog);
                         updateData.executeUpdate();
                     }
                     else if(cl.equals("PASS")){
                         String sas = "UPDATE Credentials SET sasPass = '" + newu + "' WHERE sasUser = '" + oldu + "'";
+                        String newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','sasPass','" + newu + "','Credentials')";
                         updateData = connection.prepareStatement(sas);
                         System.out.println("\n\n\t\tyour password for this username: (" + oldu + ") has been changed"); 
                         saspass = newu;
-                        SasPass.Pass = newu;
+                        // SasPass.Pass = newu;
+                        updateData.executeUpdate();
+                        updateData = connection.prepareStatement(newlog);
                         updateData.executeUpdate();
                     }
                 }
@@ -670,7 +678,7 @@ public class Sasaccessdb {
         Connection connection = null;
         Statement statement = null;
         PreparedStatement updateData = null;
-        String sas = null;
+        String sas = null, newlog = null;
         
 
         try { 
@@ -699,13 +707,17 @@ public class Sasaccessdb {
 
                 if(chor.equals("add")){
                     sas = "INSERT INTO Credentials (last, sasUser, sasPass) VALUES('00-00-0000 00:00:00', '" + newuser + "', '" + newpass + "')";
+                    newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','+++','" + newuser + "','Credentials')";
                     System.out.println("\t\tnew user has been added successfully!");
                 }
                 else if(chor.equals("del")){
                     sas = "DELETE FROM Credentials WHERE sasUser ='" + newuser + "'";
+                    newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + saslastlogin + "','xxx','" + newuser + "','Credentials')";
                     System.out.println("\t\tusername has been deleted successfully!");
                 }
                 updateData = connection.prepareStatement(sas);
+                updateData.executeUpdate();
+                updateData = connection.prepareStatement(newlog);
                 updateData.executeUpdate();
                                               
         }
@@ -723,6 +735,70 @@ public class Sasaccessdb {
             }
         }        
     }
+
+
+    // ============================================================================================================================================================
+    //                                                                      Log
+    // ============================================================================================================================================================
+    public void viewLog(){
+
+        // variables
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        PreparedStatement updateData = null;
+        
+
+        try { 
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+        }
+        catch(ClassNotFoundException cnfex) { 
+            System.out.println("ERROR: \t MS Access JDBC driver");
+            cnfex.printStackTrace();
+        }
+  
+        try {          
+                connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+                statement = connection.createStatement();
+                rs = statement.executeQuery("SELECT * FROM Log");
+
+                System.out.println("\n  last modified" + "\t\tuser" + "\t\ttable [column]" + "\t\t\tchanges"  );
+                System.out.println("  ------------------------------------------------------------------------------------------------------------");
+
+                    while(rs.next()) { 
+
+                        String logid = rs.getString(1);
+                        String loguser = rs.getString(2);
+                        String loglast = rs.getString(3);
+                        String logcl = rs.getString(4);
+                        String logchange = rs.getString(5);
+                        String logtable = rs.getString(6);
+                        
+                        if(loguser.length() > 7){
+                            System.out.println("  " + loglast + "\t" + loguser + "\t" + logtable + " [" + logcl + "]\t\t" + logchange );
+                        }
+                        else{  System.out.println("  " + loglast + "\t" + loguser + "\t\t" + logtable + " [" + logcl + "]\t\t" + logchange ); }
+                        
+                    }    
+                            
+        }
+        catch(SQLException sqlex){ sqlex.printStackTrace(); }
+
+        finally {
+
+            try {
+                if(null != connection) {
+                    rs.close();
+                    statement.close();
+                    connection.close();
+                }
+            }
+            catch (SQLException sqlex) {
+                sqlex.printStackTrace();
+            }
+        }        
+    }
+
 
     // ============================================================================================================================================================
     public void vName(String vname) {
@@ -799,7 +875,7 @@ public class Sasaccessdb {
             
             String data4[][]={ {"all","for whole list of states"},    
                               {"set>[number]/[column]/[new data]","for update a record."},    
-                              {"update>link>[number]/[new data]","for update a URL."}                             
+                              {"update>url>[number]/[new data]","for update a URL."}                             
                             };    
             String column4[]={"Command","Details"};         
             JTable jt4=new JTable(data4,column4);    
@@ -969,6 +1045,10 @@ public class Sasaccessdb {
             if(SasPass.User.equals("sasan")){ 
                 adduser(vname.substring(9,vname.length()), "del"); 
             } else{System.out.println("\t\tAccess denied!");}
+            System.out.print(B); 
+        }
+        if(vname.equals("LOG>")){           
+            viewLog();            
             System.out.print(B); 
         }
         System.out.print("$ ");         
