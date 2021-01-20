@@ -21,6 +21,7 @@ public class Sasaccessdb {
     public static String taxId, taxMail, taxState, taxAlert, taxDate, taxBalance, taxUser, taxPass, taxPin, taxLn, taxNote, nextFiling;   // for List db table (tax)
     public static String stateName, stateLink, stateId;  // for weblink db table
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
+    public static String passid, passweb, passuser, passpass, passacc;  // for passwords db
 
     // website urls
     public static void webLink(String urlString) {
@@ -131,25 +132,25 @@ public class Sasaccessdb {
         }
         else if(files[0].contains("STATUS>")){
             if(status == ""){
-                System.out.println("\t\t[ ] |         | => " + batchId );
+                System.out.println("\t\t[ ] |         | => [" + batchNum +"] "+ batchId );
             }
             else{
                 if(sap.equals("+")){
                     switch (status){
-                        case "ready": System.out.println("\t\t[s] | ready   | => " + batchId ); break;
-                        case "printed": System.out.println("\t\t[s] | PRINTED | => " + batchId ); break;
-                        case "shipped": System.out.println("\t\t[s] | Shipped | => " + batchId ); break;
-                        case "hold": System.out.println("\t\t[s] | HOLD    | => " + batchId ); break;
-                        default: System.out.println("\t\t[s] | " + status + " | => " + batchId );
+                        case "ready": System.out.println("\t\t[s] | ready   | => [" + batchNum +"] "+ batchId ); break;
+                        case "printed": System.out.println("\t\t[s] | PRINTED | => [" + batchNum +"] "+ batchId ); break;
+                        case "shipped": System.out.println("\t\t[s] | Shipped | => [" + batchNum +"] "+ batchId ); break;
+                        case "hold": System.out.println("\t\t[s] | HOLD    | => [" + batchNum +"] "+ batchId ); break;
+                        default: System.out.println("\t\t[s] | " + status + " | => [" + batchNum +"] "+ batchId );
                         } 
                 } 
                 else{
                     switch (status){
-                        case "ready": System.out.println("\t\t[ ] | ready   | => " + batchId ); break;
-                        case "printed": System.out.println("\t\t[ ] | PRINTED | => " + batchId ); break;
-                        case "shipped": System.out.println("\t\t[ ] | Shipped | => " + batchId ); break;
-                        case "hold": System.out.println("\t\t[ ] | HOLD    | => " + batchId ); break;
-                        default: System.out.println("\t\t[ ] | " + status + " | => " + batchId );
+                        case "ready": System.out.println("\t\t[ ] | ready   | => [" + batchNum +"] "+ batchId ); break;
+                        case "printed": System.out.println("\t\t[ ] | PRINTED | => [" + batchNum +"] "+ batchId ); break;
+                        case "shipped": System.out.println("\t\t[ ] | Shipped | => [" + batchNum +"] "+ batchId ); break;
+                        case "hold": System.out.println("\t\t[ ] | HOLD    | => [" + batchNum +"] "+ batchId ); break;
+                        default: System.out.println("\t\t[ ] | " + status + " | => [" + batchNum +"] "+ batchId );
                         }
                 }
             }
@@ -211,10 +212,8 @@ public class Sasaccessdb {
                 System.out.print( "\n\t------------\n");
                 System.out.println( "\n\t[" + batchNum + "] " + batchId + "\t\tBatch-" + batch + "\t\t" + sentDate +"\n" ); 
         }
-        else if(files[0].contains("DATE>")){ 
-            
-            System.out.print( "\n\t[" + batchNum + "] " + batchId + "\n\n\tBatch-" + batch + "\t\t" + sentDate + "\t\t" + status ); 
-            System.out.print( "\n\t--------------------------------------------------------\n");
+        else if(files[0].contains("DATE>")){             
+            System.out.println( "\tBatch-" + batch + "\t" + sentDate + "\t| " + status + " |\t\t[" + batchNum + "] " + batchId  ); 
         }
         else{
 
@@ -242,6 +241,16 @@ public class Sasaccessdb {
                 );
     
             System.out.print(B);
+        }
+    }
+
+    // ============================================================================================================================================================
+    //                                                                        Password
+    // ============================================================================================================================================================
+
+    public void printPass(String id, String user, String pass, String acc, String link){
+        if(files[0].equals("ALL")){
+            System.out.println( "\t[" + id + "] " + acc );
         }
     }
 
@@ -318,6 +327,17 @@ public class Sasaccessdb {
                     stateWebsite(stateId, stateName, stateLink);
                 }
             } 
+            if(sasDb.equals("Pass")){
+                while(rs.next()) {    
+                            if(rs.getString(1) == null){passid = "";} else{passid = rs.getString(1);}                    
+                            if(rs.getString(2) == null){passweb = "";} else{passweb = rs.getString(2);}
+                            if(rs.getString(3) == null){passuser = "";} else{passuser = rs.getString(3);}
+                            if(rs.getString(4) == null){passpass = "";} else{passpass = rs.getString(4);}
+                            if(rs.getString(5) == null){passacc = "";} else{passacc = rs.getString(5);}
+                                                    
+                            printPass( passid, passuser, passpass, passacc, passweb);                   
+                } 
+            }
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
@@ -393,7 +413,7 @@ public class Sasaccessdb {
             updateData.executeUpdate();
             updateData = connection.prepareStatement(newlog);
             updateData.executeUpdate();
-            System.out.println("\t\trow " + sasId + "\t[ UPDATED ]");            
+            System.out.println("\t\t\t\tNum " + sasId + "\t[ UPDATED ]");            
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
@@ -441,7 +461,7 @@ public class Sasaccessdb {
             updateData.executeUpdate();
             updateData = connection.prepareStatement(newlog);
             updateData.executeUpdate();
-            System.out.println("\t\trow " + sasId + "\t[ UPDATED ]");            
+            System.out.println("\t\t\t\tNum " + sasId + "\t[ UPDATED ]");            
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
@@ -865,7 +885,7 @@ public class Sasaccessdb {
             panel5.setBounds(50,650,600,122);    
             
             String data5[][]={ {"log>","to show the log"},    
-                              {"user>all","to show all the users and passwords"},    
+                              {"user>","to show all the users and passwords"},    
                               {"change>user/[old user name]/[new user name]","for update a username."},
                               {"change>pass/[user name]/[new password]","for update a password."},
                               {"user>add>[username]/[password]","for add a new user."},
@@ -896,7 +916,7 @@ public class Sasaccessdb {
         }
 
         if(vname.equals("DB>")){
-            System.out.println("\tMailers\t\tTax");
+            System.out.println("\tmailers\t\ttax\t\tpassword");
         }
         if(vname.equals("DB>MAILERS")){
             selectedDb[0] = "Mailers"; 
@@ -906,6 +926,11 @@ public class Sasaccessdb {
         else if(vname.equals("DB>TAX")){
             selectedDb[0] = "List";
             System.out.println("\n\t\t>> Conected to the Tax database");
+            System.out.println("\t\t=================================");
+        }
+        else if(vname.equals("DB>PASSWORD")){
+            selectedDb[0] = "Pass";
+            System.out.println("\n\t\t>> Conected to the Password database");
             System.out.println("\t\t=================================");
         }
         if(selectedDb[0] == "Mailers"){ 
@@ -922,6 +947,7 @@ public class Sasaccessdb {
                 vars("Mailers", "SELECT * FROM MAILERS WHERE BatchID='" + idBatch + "'");
             }
             else if(vname.contains("DATE>")){
+                System.out.print(B);
                 datebatch = vname.substring(5,vname.length()); 
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Sent Date]='" + datebatch + "'");
             }
@@ -943,7 +969,7 @@ public class Sasaccessdb {
             }
             else if(vname.contains("STATUS>")){
                 statusbatch = vname.substring(7,vname.length());
-                vars("Mailers", "SELECT * FROM MAILERS WHERE [Batch]='" + statusbatch + "'");
+                vars("Mailers", "SELECT * FROM MAILERS WHERE [Batch]='" + statusbatch + "'ORDER BY Status IS NULL, Status DESC,sap");
                 System.out.print(B);
             }
             else if(vname.contains("SAP>")){
@@ -988,6 +1014,13 @@ public class Sasaccessdb {
                 vars("Tax", "SELECT * FROM List WHERE ALERT <> '' " );  
                 System.out.print(B); 
             }            
+        }
+        else if(selectedDb[0] == "Pass"){
+            if(vname.equals("ALL")){
+                vars("Pass", "SELECT * FROM " + selectedDb[0]);  
+                System.out.print(B);             
+
+            }
         }
         if(vname.contains("SET>")){  
             if(vname.contains("/")){  
