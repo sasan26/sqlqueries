@@ -13,6 +13,13 @@ import java.time.format.DateTimeFormatter;
  
 public class Sasaccessdb {
 
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet rs = null;
+    PreparedStatement updateData = null;
+    public static String accdb = "jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb";   // access database
+    public static String jdbcdriver = "net.ucanaccess.jdbc.UcanaccessDriver";  // jdbc driver
+
     public static String B = System.getProperty("line.separator");
     public static String[] files = {"sasan"};
     public static String[] selectedDb = {"sasan"};
@@ -22,6 +29,24 @@ public class Sasaccessdb {
     public static String stateName, stateLink, stateId;  // for weblink db table
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
     public static String passid, passweb, passuser, passpass, passacc;  // for passwords db
+    public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
+   
+    public static void testdbdriver(){  //jdbdc driver
+        try { Class.forName(jdbcdriver); }
+        catch(ClassNotFoundException cnfex) { 
+            System.out.println("ERROR: \t MS Access JDBC driver");
+            cnfex.printStackTrace();
+        }
+    }
+
+    public void closeConnection(){  // close connections
+        try {
+            if(null != connection) { connection.close(); }
+            if(null != rs) { rs.close(); }
+            if(null != statement) { statement.close(); }
+        }
+        catch (SQLException sqlex) { sqlex.printStackTrace(); }
+    }
 
     // website urls
     public static void webLink(String urlString) {
@@ -32,9 +57,9 @@ public class Sasaccessdb {
         }
     }
 
-    public void stateWebsite(String stateId, String stateName, String stateLink){
+    public void stateWebsite(String stateId, String stateName, String stateLink){ //System.out.println("\t\tid: "+ stateId +"\t\tname: "+ stateName+"\t\tlink: " + stateLink);
         if(stateId.length() == 1  ){ stateId = "0" + stateId; }
-        if(files[0].equals("LINK>"+stateId)){
+        if(files[0].equals("LINK>"+stateId)){ 
             webLink(stateLink);
             System.out.println("\n\t\t[" + stateId + "] " + stateName);
             System.out.println("\t\t" + stateLink);
@@ -95,30 +120,94 @@ public class Sasaccessdb {
         }
         
         else{
+            String devider = "\n\t-------------------------------------------\n\t";
             System.out.println( 
-                    "\n\t[" + tId + "] " + 
-                    taxState.substring(8, taxState.length()) + "\n" + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxDate + 
-                    "\n\t-------------------------------------------\n\t" +
-                    nextFiling +  
-                    "\n\t-------------------------------------------\n\t" +
-                    taxBalance + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxUser + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxPass + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxPin +  
-                    "\n\t-------------------------------------------\n\t" +
-                    taxLn + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxAlert + 
-                    "\n\t-------------------------------------------\n\t" +
-                    taxNote + 
+                    "\n\t[" + tId + "] " + taxState.substring(8, taxState.length()) + "\n" + 
+                    devider + taxDate + devider + nextFiling + devider + taxBalance + devider + taxUser + devider + 
+                    taxPass + devider + taxPin + devider + taxLn + devider + taxAlert + devider + taxNote + 
                     "\n\t-------------------------------------------" 
                     );
             System.out.print(B);
+        }
+    }
+
+    // ============================================================================================================================================================
+    //                                                                        Map Print
+    // ============================================================================================================================================================
+    public void printMap(String id, String pc, String tel, String ip, String name, String win, String domain, String serial, String pin, String puk, String mkey, String duo){
+        String location = ip.substring(0, 7);
+        String loc = ""; 
+        if(location.equals("10.10.2")){loc = "Lasvegas  ";} else if(location.equals("10.10.1")){ loc = "Chatsworth";} else if(location.equals("10.10.0")){ loc = "Fullerton  ";} else if(location.equals("10.10.5")){ loc = "India      ";} 
+        if(pc.contains("remote")){ loc = "Remote    "; }
+        if(id.length() == 1  ){ id = "0" + id; } 
+        if(name.equals("Empty") || name.equals("empty")){name="";}
+        if(tel.equals("***")){tel = "   ";}
+        if(win.equals("pro")){win = "Pro ";}
+        if(domain.equals("dww")){ domain = "dww.dc"; }
+        if(files[0].equals("ALL")){
+            System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + loc + "\t" + win  + "\t" + domain + "\t" + name);
+            System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+        }
+        else if(files[0].equals("V>ALL")){
+            if( loc == "Lasvegas  "){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + pc + "\t" + win  + "\t" + domain + "\t" + name);
+                System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+            }
+        }
+        else if(files[0].equals("C>ALL")){
+            if( loc == "Chatsworth"){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + win  + "\t" + domain +"\t" + name);
+                System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+            }
+        }
+        else if(files[0].equals("F>ALL")){
+            if( loc == "Fullerton  "){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + win  + "\t" + domain +"\t" + name);
+                System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+            }
+        }
+        else if(files[0].equals("I>ALL")){
+            if( loc == "India      "){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + win  + "\t" + domain +"\t" + name);
+                System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+            }
+        }
+        else if(files[0].equals("R>ALL")){
+            if( loc == "Remote    "){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + ip + "\t" + tel + "\t" + win  + "\t" + domain +"\t" + name);
+                System.out.println( "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
+            }
+        }
+        else if(files[0].contains("WIN>")){
+                System.out.println( "\t[DESKTOP-ST" + id + "] " + "\t" + ip + "\t" + win + "\t" + domain);
+        }
+        else{
+            String devider = "\n\t---------------------------------------------------------------------\n\t";
+            System.out.println( 
+                "\n\t[DESKTOP-ST"+ id +"] " + pc + "\t\t" + loc + B +
+                devider + "name:    \t" +
+                name + 
+                devider + "ext:     \t" +
+                tel +
+                devider + "ip:      \t" +
+                ip + 
+                devider + "windows: \t" +
+                win + 
+                devider + "domain:  \t" +
+                domain + 
+                devider + "serial:  \t" +
+                serial + 
+                devider + "pin:     \t" +
+                pin + 
+                devider + "puk:     \t" +
+                puk + 
+                devider + "m-key:   \t" +
+                mkey + 
+                devider + "duo:     \t" +
+                duo + 
+                devider
+                );
+        System.out.print(B);
         }
     }
 
@@ -127,6 +216,7 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
 
     public void printRes(String batchNum, String batchId, String sentDate, String state, String t1, String t2, String check, String piece, String sap, String status, String batch){
+        if(batchNum.length() == 1){ batchNum = "00" + batchNum;} else if(batchNum.length() == 2){ batchNum = "0" + batchNum;}
         if(files[0].equals("ALL")){
             System.out.println( "\t" + batchNum + "\t" + batchId );
         }
@@ -216,28 +306,28 @@ public class Sasaccessdb {
             System.out.println( "\tBatch-" + batch + "\t" + sentDate + "\t| " + status + " |\t\t[" + batchNum + "] " + batchId  ); 
         }
         else{
-
+            String devider = "\n\t----------------------------";
             System.out.println( "\n\t[" + batchNum + "] " + batchId);
             System.out.println( 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tBatch\t\t" + batch +
-                "\n\t----------------------------" + 
+                devider + 
                 "\n\tDate\t\t" + sentDate + 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tState\t\t" + state + 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tCheck\t\t" + check + 
-                "\n\t----------------------------" + 
+                devider + 
                 "\n\tPieces\t\t" + piece + 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tTray-1\t\t" + t1 + 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tTray-2\t\t" + t2 + 
-                "\n\t----------------------------" + 
+                devider + 
                 "\n\tSAP\t\t" + sap + 
-                "\n\t----------------------------" +
+                devider +
                 "\n\tStatus\t\t" + status + 
-                "\n\t----------------------------" 
+                devider 
                 );
     
             System.out.print(B);
@@ -249,8 +339,26 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
 
     public void printPass(String id, String user, String pass, String acc, String link){
+        if(id.length()==1){ id = "0"+id;}
         if(files[0].equals("ALL")){
             System.out.println( "\t[" + id + "] " + acc );
+        }
+        else if(files[0].contains("LINK>")){
+            stateWebsite(id, acc, link);
+        }
+        else{
+            String devider = "\n\t--------------------------------------------------------------------------------------\n\t";
+            System.out.println( 
+                "\n\t[" + id + "] " + acc + B +
+                devider + "user:\t" +
+                user +
+                devider + "pass:\t" +
+                pass + 
+                devider + "url: \t" +
+                link + 
+                devider
+                );
+        System.out.print(B);
         }
     }
 
@@ -260,42 +368,28 @@ public class Sasaccessdb {
 
     public void vars(String sasDb, String sas){
 
-        // variables
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
-
+        testdbdriver();  
         try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
-  
-        try {
- 
-            connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+            connection = DriverManager.getConnection(accdb); 
             statement = connection.createStatement();
 
             rs = statement.executeQuery(sas); 
             if(sasDb.equals("Mailers")){
                 while(rs.next()) {                        
-                            if(rs.getString(1) == null){batchNum = "";} else{batchNum = rs.getString(1);}
-                            if(rs.getString(2) == null){batchId = "";} else{batchId = rs.getString(2);}
-                            if(rs.getString(3) == null){sentDate = "";} else{sentDate = rs.getString(3);}
-                            if(rs.getString(4) == null){responseDate = "";} else{responseDate = rs.getString(4);}
-                            if(rs.getString(5) == null){state = "";} else{state = rs.getString(5);}
-                            if(rs.getString(6) == null){t1 = "";} else{t1 =  rs.getString(6);}
-                            if(rs.getString(7) == null){t2 = "";} else{t2 =  rs.getString(7);}
-                            if(rs.getString(8) == null){check = "";} else{check = rs.getString(8);}
-                            if(rs.getString(9) == null){piece = "";} else{piece = rs.getString(9);}
-                            if(rs.getString(10) == null){sap = "";} else{sap = rs.getString(10);}
-                            if(rs.getString(11) == null){status = "";} else{status = rs.getString(11);}
-                            if(rs.getString(12) == null){batch = "";} else{batch = rs.getString(12);}
-                                                    
-                            printRes( batchNum,  batchId,  sentDate,  state,  t1,  t2,  check,  piece,  sap,  status,  batch);
-                    
+                    if(rs.getString(1) == null){batchNum = "";} else{batchNum = rs.getString(1);}
+                    if(rs.getString(2) == null){batchId = "";} else{batchId = rs.getString(2);}
+                    if(rs.getString(3) == null){sentDate = "";} else{sentDate = rs.getString(3);}
+                    if(rs.getString(4) == null){responseDate = "";} else{responseDate = rs.getString(4);}
+                    if(rs.getString(5) == null){state = "";} else{state = rs.getString(5);}
+                    if(rs.getString(6) == null){t1 = "";} else{t1 =  rs.getString(6);}
+                    if(rs.getString(7) == null){t2 = "";} else{t2 =  rs.getString(7);}
+                    if(rs.getString(8) == null){check = "";} else{check = rs.getString(8);}
+                    if(rs.getString(9) == null){piece = "";} else{piece = rs.getString(9);}
+                    if(rs.getString(10) == null){sap = "";} else{sap = rs.getString(10);}
+                    if(rs.getString(11) == null){status = "";} else{status = rs.getString(11);}
+                    if(rs.getString(12) == null){batch = "";} else{batch = rs.getString(12);}
+                                            
+                    printRes( batchNum,  batchId,  sentDate,  state,  t1,  t2,  check,  piece,  sap,  status,  batch);                    
                 } 
             }
             else if(sasDb.equals("Tax")){
@@ -320,14 +414,14 @@ public class Sasaccessdb {
             else if(sasDb.equals("Link")){
                 while(rs.next()) { 
 
-                    if(rs.getString(1) == null){stateName = "";} else{stateName = rs.getString(1);}
-                    if(rs.getString(3) == null){stateId = "";} else{stateId = rs.getString(3);}
-                    if(rs.getString(2) == null){stateLink = "";} else{stateLink = rs.getString(2);}
+                    if(rs.getString(2) == null){stateName = "";} else{stateName = rs.getString(2);}
+                    if(rs.getString(1) == null){stateId = "";} else{stateId = rs.getString(1);}
+                    if(rs.getString(3) == null){stateLink = "";} else{stateLink = rs.getString(3);}
                     
                     stateWebsite(stateId, stateName, stateLink);
                 }
             } 
-            if(sasDb.equals("Pass")){
+            else if(sasDb.equals("Pass")){
                 while(rs.next()) {    
                             if(rs.getString(1) == null){passid = "";} else{passid = rs.getString(1);}                    
                             if(rs.getString(2) == null){passweb = "";} else{passweb = rs.getString(2);}
@@ -338,24 +432,28 @@ public class Sasaccessdb {
                             printPass( passid, passuser, passpass, passacc, passweb);                   
                 } 
             }
+            else if(sasDb.equals("Map")){
+                while(rs.next()) {    
+                            if(rs.getString(1) == null){mapid = "";} else{mapid = rs.getString(1);}                    
+                            if(rs.getString(2) == null){pc = "";} else{pc = rs.getString(2);}
+                            if(rs.getString(3) == null){tel = "";} else{tel = rs.getString(3);}
+                            if(rs.getString(4) == null){mapip = "";} else{mapip = rs.getString(4);}
+                            if(rs.getString(5) == null){mapname = "";} else{mapname = rs.getString(5);}
+                            if(rs.getString(6) == null){mapwin = "";} else{mapwin = rs.getString(6);}
+                            if(rs.getString(7) == null){domain = "";} else{domain = rs.getString(7);}
+                            if(rs.getString(8) == null){serial = "";} else{serial = rs.getString(8);}
+                            if(rs.getString(9) == null){pin = "";} else{pin = rs.getString(9);}
+                            if(rs.getString(10) == null){puk = "";} else{puk = rs.getString(10);}
+                            if(rs.getString(11) == null){mkey = "";} else{mkey = rs.getString(11);}
+                            if(rs.getString(12) == null){duo = "";} else{duo = rs.getString(12);}
+                                                   
+                            printMap( mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo);                   
+                } 
+            }
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-
-            try {
-                if(null != connection) {
-                    rs.close();
-                    statement.close();
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }
-
+        finally { closeConnection(); } 
     }
 
     // ============================================================================================================================================================
@@ -364,22 +462,10 @@ public class Sasaccessdb {
 
     public void updateRecord(String sasDb){
 
-        // variables
-        Connection connection = null;
-        PreparedStatement updateData = null;
-        String newlog = null;
-        
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
-  
+        String newlog = null;        
+        testdbdriver(); 
         try {
  
-            // rs = statement.executeQuery(sas); 
             String sasId = sasDb.substring(0,2);
             String dodor =  sasDb.substring(3,sasDb.length());
             Integer pos = null;
@@ -388,15 +474,14 @@ public class Sasaccessdb {
                 char devider = dodor.charAt(i);
                 String deviderSas = Character.toString(devider);
                 
-                if(deviderSas.equals("/") ){ pos = i; break;}
+                if(deviderSas.equals("/") ){ pos = i; break; }
                 
             }
             
-
             String clSas = dodor.substring(0,pos);
             String dataSas = dodor.substring(pos + 1, dodor.length());
 
-            connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+            connection = DriverManager.getConnection(accdb); 
 
             LocalDateTime now = LocalDateTime.now();                    
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");  
@@ -405,6 +490,9 @@ public class Sasaccessdb {
             String sas = "UPDATE " + selectedDb[0] + " SET [" + clSas + "] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
             if(selectedDb[0].equals("Mailers")){
                 newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + llogin + "','" + clSas + "','[" + sasId + "]=> " + dataSas.toLowerCase() + "','Mailers')";
+            }
+            else if(selectedDb[0].equals("Map")){
+                newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + llogin + "','" + clSas + "','[" + sasId + "]=> " + dataSas.toLowerCase() + "','Map')";
             }
             else{
                 newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + llogin + "','" + clSas + "','[" + sasId + "]=> " + dataSas.toLowerCase() + "','List')";
@@ -417,19 +505,7 @@ public class Sasaccessdb {
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-
-            try {
-                if(null != connection) {
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }
-
+        finally { closeConnection(); } 
     }
 
     // ============================================================================================================================================================
@@ -437,24 +513,14 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
 
     public void updateLink(String sasDb){
-
-        Connection connection = null;
-        PreparedStatement updateData = null;
        
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
+        testdbdriver();
   
         try {
- 
             String sasId = sasDb.substring(0,2);
             String dataSas =  sasDb.substring(3,sasDb.length());
 
-            connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+            connection = DriverManager.getConnection(accdb); 
             String sas = "UPDATE webLinks SET [links] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
             String newlog ="INSERT INTO Log (loguser, loglast, logcl, logchange, logtable) VALUES ('" + SasPass.User + "','" + userLastLogin + "','links','[" + sasId + "]=> " + dataSas.toLowerCase() + "','Weblinks')";
             updateData = connection.prepareStatement(sas);
@@ -465,44 +531,19 @@ public class Sasaccessdb {
                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-
-            try {
-                if(null != connection) {
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }
-
+        finally { closeConnection(); } 
     }
 
     // ============================================================================================================================================================
     //                                                                      Login
     // ============================================================================================================================================================
 
-    public void login(String sasDb, String sasUpdate, String userog){
+    public void login(String sasDb, String sasUpdate, String userog){        
 
-        // variables
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
-        PreparedStatement updateData = null;
-        
-
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
+        testdbdriver();
   
         try {          
-                connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+                connection = DriverManager.getConnection(accdb); 
                 statement = connection.createStatement();
                 rs = statement.executeQuery("SELECT * FROM Credentials WHERE SasUser ='" + userog + "'");
            
@@ -536,8 +577,7 @@ public class Sasaccessdb {
                         char devider = dodor.charAt(i);
                         String deviderSas = Character.toString(devider);
                         
-                        if(deviderSas.equals("/") ){ pos = i; break;}
-                        
+                        if(deviderSas.equals("/") ){ pos = i; break;}                       
                     }
                     
                     String oldu = dodor.substring(0,pos).toLowerCase();
@@ -566,27 +606,11 @@ public class Sasaccessdb {
                             updateData.executeUpdate();
                         }
                     }
-                    else{ System.out.println("\n\t\tAccess denied!"); }
-                    
+                    else{ System.out.println("\n\t\tAccess denied!"); }                   
                 }
-                          
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-
-            try {
-                if(null != connection) {
-                    rs.close();
-                    statement.close();
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }
-      
+        finally { closeConnection(); }    
     }
 
     // ============================================================================================================================================================
@@ -594,23 +618,10 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
     public void allUsers(String sasDb){
 
-        // variables
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
-        PreparedStatement updateData = null;
-        
-
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
+        testdbdriver();
   
         try {          
-                connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+                connection = DriverManager.getConnection(accdb); 
                 statement = connection.createStatement();
                 rs = statement.executeQuery("SELECT * FROM Credentials");
 
@@ -646,47 +657,27 @@ public class Sasaccessdb {
                             System.out.println("\n\t\tusername:\t" +  SasPass.User + "\n\t\tpassword:\t" +  SasPass.Pass  + "\n\t\tlast login:\t" + saslastlogin);
                         }
                     }    
-                }
-                            
+                }                           
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-
-            try {
-                if(null != connection) {
-                    rs.close();
-                    statement.close();
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }        
+        finally { closeConnection(); }       
     }
 
     // ============================================================================================================================================================
     //                                                                      Add Users
     // ============================================================================================================================================================
     public void adduser(String sasDb, String chor){ 
-        // variables
-        Connection connection = null;
-        Statement statement = null;
-        PreparedStatement updateData = null;
-        String sas = null, newlog = null;
-        
 
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
+        String sas = null, newlog = null;        
+
+        try { Class.forName(jdbcdriver);}
         catch(ClassNotFoundException cnfex) { 
             System.out.println("ERROR: \t MS Access JDBC driver");
             cnfex.printStackTrace();
         }
   
         try {        
-                connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+                connection = DriverManager.getConnection(accdb); 
                 statement = connection.createStatement();
              
                 Integer pos = null;    
@@ -718,41 +709,18 @@ public class Sasaccessdb {
                                               
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-
-        finally {
-            try {
-                if(null != connection) {
-                    statement.close();
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }        
+        finally { closeConnection(); }         
     }
-
 
     // ============================================================================================================================================================
     //                                                                      Log
     // ============================================================================================================================================================
     public void viewLog(){
-
-        // variables
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
         
-        try { 
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) { 
-            System.out.println("ERROR: \t MS Access JDBC driver");
-            cnfex.printStackTrace();
-        }
+        testdbdriver();
   
         try {          
-                connection = DriverManager.getConnection("jdbc:ucanaccess://C:/Users/it/Desktop/accjava/db2.accdb"); 
+                connection = DriverManager.getConnection(accdb); 
                 statement = connection.createStatement();
                 rs = statement.executeQuery("SELECT * FROM Log");
 
@@ -783,20 +751,76 @@ public class Sasaccessdb {
                             
         }
         catch(SQLException sqlex){ sqlex.printStackTrace(); }
-        finally {
-            try {
-                if(null != connection) {
-                    rs.close();
-                    statement.close();
-                    connection.close();
-                }
-            }
-            catch (SQLException sqlex) {
-                sqlex.printStackTrace();
-            }
-        }        
+        finally { closeConnection(); }        
     }
 
+    // ============================================================================================================================================================
+    //                                                                        update Passwords
+    // ============================================================================================================================================================
+
+    public void updatePass(String sasDb){
+
+        String sas = null;
+       
+        testdbdriver();
+  
+        try {
+            String cl = sasDb.substring(0,4); 
+            String sasId = sasDb.substring(5,7); 
+            String dataSas =  sasDb.substring(8,sasDb.length());   
+
+            connection = DriverManager.getConnection(accdb); 
+            if(cl.equals("USER")){
+                sas = "UPDATE Pass SET [username] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            }
+            else if(cl.equals("PASS")){
+                sas = "UPDATE Pass SET [password] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            }
+            else if(cl.equals("LINK")){
+                sas = "UPDATE Pass SET [website] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            }
+            else if(cl.equals("NAME")){
+                sas = "UPDATE Pass SET [acc] = '" + dataSas.toLowerCase() + "' WHERE ID = " + sasId;
+            }
+            updateData = connection.prepareStatement(sas);
+            updateData.executeUpdate();
+            System.out.println("\t\t\t\tNum " + sasId + "\t[ UPDATED ]");            
+                          
+        }
+        catch(SQLException sqlex){ sqlex.printStackTrace(); }
+        finally { closeConnection(); } 
+    }
+
+    // ============================================================================================================================================================
+    //                                                                      Add Password
+    // ============================================================================================================================================================
+    public void addpass(String sasDb, String chor){ 
+
+        String sas = null;        
+
+        testdbdriver();
+  
+        try {        
+                connection = DriverManager.getConnection(accdb); 
+                statement = connection.createStatement();
+                
+                String newuser = sasDb.substring(0,sasDb.length()).toLowerCase();
+
+                if(chor.equals("add")){
+                    sas = "INSERT INTO Pass (acc) VALUES('" + newuser + "')";
+                    System.out.println("\t\tnew password has been added successfully!");
+                }
+                else if(chor.equals("del")){
+                    sas = "DELETE FROM Pass WHERE acc ='" + newuser + "'";
+                    System.out.println("\t\tpassword has been deleted successfully!");
+                }
+                updateData = connection.prepareStatement(sas);
+                updateData.executeUpdate();
+                                              
+        }
+        catch(SQLException sqlex){ sqlex.printStackTrace(); }
+        finally { closeConnection(); }      
+    }
 
     // ============================================================================================================================================================
     public void vName(String vname) {
@@ -916,7 +940,7 @@ public class Sasaccessdb {
         }
 
         if(vname.equals("DB>")){
-            System.out.println("\tmailers\t\ttax\t\tpassword");
+            System.out.println("\tmailers\t\ttax\t\tpassword\t\tmap");
         }
         if(vname.equals("DB>MAILERS")){
             selectedDb[0] = "Mailers"; 
@@ -931,6 +955,11 @@ public class Sasaccessdb {
         else if(vname.equals("DB>PASSWORD")){
             selectedDb[0] = "Pass";
             System.out.println("\n\t\t>> Conected to the Password database");
+            System.out.println("\t\t=================================");
+        }
+        else if(vname.equals("DB>MAP")){
+            selectedDb[0] = "Map";
+            System.out.println("\n\t\t>> Conected to the Map database");
             System.out.println("\t\t=================================");
         }
         if(selectedDb[0] == "Mailers"){ 
@@ -985,7 +1014,7 @@ public class Sasaccessdb {
             }
             if(vname.contains("LINK>")){
                 String numTax = vname.substring(5,vname.length());
-                vars("Link", "SELECT * FROM webLinks WHERE ID='" + numTax + "'");
+                vars("Link", "SELECT * FROM webLinks WHERE ID='" + numTax + "'"); 
             }
             else if(vname.contains("STATE>")){
                 String numState = vname.substring(6,vname.length());
@@ -1019,8 +1048,77 @@ public class Sasaccessdb {
             if(vname.equals("ALL")){
                 vars("Pass", "SELECT * FROM " + selectedDb[0]);  
                 System.out.print(B);             
-
             }
+            else if(vname.contains("NUM>")){
+                String numPass = vname.substring(4,vname.length());
+                vars("Pass", "SELECT * FROM Pass WHERE ID='" + numPass + "'");
+            }
+            else if(vname.contains("ACC>")){
+                String numPass = vname.substring(4,vname.length());
+                vars("Pass", "SELECT * FROM Pass WHERE acc='" + numPass + "'");
+            }
+            else if(vname.contains("UPDATE>")){
+                updatePass(vname.substring(7, vname.length()));  
+                System.out.print(B); 
+            } 
+            else if(vname.contains("PASS>ADD>")){ 
+                if(SasPass.User.equals("sasan")){ 
+                    addpass(vname.substring(9,vname.length()), "add"); 
+                } else{System.out.println("\t\tAccess denied!");}
+                System.out.print(B); 
+            }
+            else if(vname.contains("PASS>DEL>")){ 
+                if(SasPass.User.equals("sasan")){ 
+                    addpass(vname.substring(9,vname.length()), "del"); 
+                } else{System.out.println("\t\tAccess denied!");}
+                System.out.print(B); 
+            }
+            if(vname.contains("LINK>")){
+                String numTax = vname.substring(5,vname.length());
+                vars("Pass", "SELECT * FROM Pass WHERE ID='" + numTax + "'");
+            }
+        }
+        else if(selectedDb[0] == "Map"){
+            if(vname.equals("ALL") || vname.equals("V>ALL") || vname.equals("C>ALL") || vname.equals("F>ALL")  || vname.equals("I>ALL") || vname.equals("R>ALL")  ){
+                if(vname.equals("V>ALL")){
+                    System.out.println( B + "\t" + "VEGAS\n\t--------------\n" );
+                }
+                if(vname.equals("C>ALL")){
+                    System.out.println( B + "\t" + "CHATSWORTH\n\t--------------\n" );
+                }
+                if(vname.equals("F>ALL")){
+                    System.out.println( B + "\t" + "FULERTON\n\t--------------\n" );
+                }
+                if(vname.equals("I>ALL")){
+                    System.out.println( B + "\t" + "INDIA\n\t--------------\n" );
+                }
+                if(vname.equals("R>ALL")){
+                    System.out.println( B + "\t" + "REMOTE\n\t--------------\n" );
+                }
+                vars("Map", "SELECT * FROM " + selectedDb[0]);  
+                System.out.print(B);             
+            }
+            else if((vname.contains("WIN>")) ){
+                vars("Map", "SELECT * FROM map ORDER BY [windows] DESC");  
+                System.out.print(B);             
+            }
+            else if(vname.contains("NUM>")){
+                String numPass = vname.substring(4,vname.length());
+                vars("Map", "SELECT * FROM map WHERE ID='" + numPass + "'");
+            }
+            else if(vname.contains("EXT>")){
+                String numPass = vname.substring(4,vname.length());
+                vars("Map", "SELECT * FROM map WHERE tel='" + numPass + "'");
+            }
+            else if(vname.contains("IP>")){
+                String numPass = vname.substring(3,vname.length());
+                vars("Map", "SELECT * FROM map WHERE ip='" + numPass + "'");
+            }
+            else if(vname.contains("NAME>")){
+                String numPass = vname.substring(5,vname.length());
+                vars("Map", "SELECT * FROM map WHERE name='" + numPass + "'");
+            }
+
         }
         if(vname.contains("SET>")){  
             if(vname.contains("/")){  
@@ -1108,7 +1206,6 @@ public class Sasaccessdb {
     }
 }
 
-
 // ======================================================================================================================
 //                                                       Password
 // ======================================================================================================================
@@ -1129,7 +1226,6 @@ public class SasPass {
     }
 
     // Password JFRame
-
     public void passpopup(){
         final JPasswordField pf = new JPasswordField();
 
@@ -1138,7 +1234,6 @@ public class SasPass {
         Pass = "";
        
         dialog.addComponentListener(new ComponentListener(){
-
             @Override
             public void componentShown(ComponentEvent e) {
                 pf.requestFocusInWindow();
@@ -1149,7 +1244,6 @@ public class SasPass {
             });
 
         dialog.setVisible(true);
-
         char[] password2 = pf.getPassword();
         Pass = new String(password2);
 
