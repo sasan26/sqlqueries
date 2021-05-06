@@ -96,12 +96,12 @@ public class Sasaccessdb {
         else if(files[0].equals("DUE")){
             if(taxDate.equals("")){ taxDate = "";}else{ taxDate = taxDate.substring(8, taxDate.length());}
             if(nextFiling.equals("next:")){ nextFiling = "";}else{ nextFiling = nextFiling.substring(7, nextFiling.length());}
-            if(!nextFiling.equals("") ){
+            if(!nextFiling.equals("") ){ if( taxAlert.equals("error:") ){
                 if( taxState.length() < 19  ){ System.out.println( "\t" + nextFiling + "\t\t[" + tId + "] " + taxState.substring(8, taxState.length()) + "\t\t\t" + taxDate ); }
                 else if( taxState.length() > 26  ){ System.out.println( "\t" + nextFiling + "\t\t[" + tId + "] " + taxState.substring(8, taxState.length()) + "\t" + taxDate ); }
                 else{
                     System.out.println( "\t" + nextFiling + "\t\t[" + tId + "] " + taxState.substring(8, taxState.length()) + "\t\t" + taxDate );
-                }
+                }}
             }
         }
         else if(files[0].equals("BALANCE")){
@@ -216,33 +216,23 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
 
     public void printRes(String batchNum, String batchId, String sentDate, String state, String t1, String t2, String check, String piece, String sap, String status, String batch){
-        if(batchNum.length() == 1){ batchNum = "00" + batchNum;} else if(batchNum.length() == 2){ batchNum = "0" + batchNum;}
+        if(batchNum.length() == 1){ batchNum = "00" + batchNum;} else if(batchNum.length() == 2){ batchNum = "0" + batchNum;}       
         if(files[0].equals("ALL")){
             System.out.println( "\t" + batchNum + "\t" + batchId );
         }
         else if(files[0].contains("STATUS>")){
+            if(sap.equals("+")){ sap = "\t\t[s]";} else{sap = "\t\t[ ]";}
             if(status == ""){
                 System.out.println("\t\t[ ] |         | => [" + batchNum +"] "+ batchId );
             }
             else{
-                if(sap.equals("+")){
-                    switch (status){
-                        case "ready": System.out.println("\t\t[s] | ready   | => [" + batchNum +"] "+ batchId ); break;
-                        case "printed": System.out.println("\t\t[s] | PRINTED | => [" + batchNum +"] "+ batchId ); break;
-                        case "shipped": System.out.println("\t\t[s] | Shipped | => [" + batchNum +"] "+ batchId ); break;
-                        case "hold": System.out.println("\t\t[s] | HOLD    | => [" + batchNum +"] "+ batchId ); break;
-                        default: System.out.println("\t\t[s] | " + status + " | => [" + batchNum +"] "+ batchId );
-                        } 
+                switch (status){
+                    case "ready": System.out.println(sap + " | ready   | => [" + batchNum +"] "+ batchId ); break;
+                    case "printed": System.out.println(sap + " | PRINTED | => [" + batchNum +"] "+ batchId ); break;
+                    case "shipped": System.out.println(sap + " | Shipped | => [" + batchNum +"] "+ batchId ); break;
+                    case "hold": System.out.println(sap + " | HOLD    | => [" + batchNum +"] "+ batchId ); break;
+                    default: System.out.println(sap + " | " + status + " | => [" + batchNum +"] "+ batchId );
                 } 
-                else{
-                    switch (status){
-                        case "ready": System.out.println("\t\t[ ] | ready   | => [" + batchNum +"] "+ batchId ); break;
-                        case "printed": System.out.println("\t\t[ ] | PRINTED | => [" + batchNum +"] "+ batchId ); break;
-                        case "shipped": System.out.println("\t\t[ ] | Shipped | => [" + batchNum +"] "+ batchId ); break;
-                        case "hold": System.out.println("\t\t[ ] | HOLD    | => [" + batchNum +"] "+ batchId ); break;
-                        default: System.out.println("\t\t[ ] | " + status + " | => [" + batchNum +"] "+ batchId );
-                        }
-                }
             }
         }
         else if(files[0].contains("SAP>")){
@@ -466,8 +456,17 @@ public class Sasaccessdb {
         testdbdriver(); 
         try {
  
-            String sasId = sasDb.substring(0,2);
-            String dodor =  sasDb.substring(3,sasDb.length());
+            String sasId = null; String dodor = null;
+            String threeD = sasDb.substring(0,3);
+            if(!threeD.contains("/")){
+                sasId = sasDb.substring(0,3);
+                dodor =  sasDb.substring(4,sasDb.length());
+            }
+            else{
+                sasId = sasDb.substring(0,2);
+                dodor =  sasDb.substring(3,sasDb.length());
+            }
+            
             Integer pos = null;
 
             for(Integer i = 0; i< dodor.length(); i++){
