@@ -30,6 +30,8 @@ public class Sasaccessdb {
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
     public static String passid, passweb, passuser, passpass, passacc;  // for passwords db
     public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
+    public static String  meterDate, meterTime, meterA, meterB, meter, IDdateB, IDdate;  // for Meter db
+    public static Integer ID1, ID2, IDall, ID1B, ID2B, IDallB;  // for Meter db
    
     public static void testdbdriver(){  //jdbdc driver
         try { Class.forName(jdbcdriver); }
@@ -209,6 +211,20 @@ public class Sasaccessdb {
                 );
         System.out.print(B);
         }
+    }
+    // ============================================================================================================================================================
+    //                                                                        Meter Print
+    // ============================================================================================================================================================
+    public void printMeter(String id, String date, String time, String a, String b){
+       
+        System.out.print( 
+            "\n\t" + 
+            id + "\t" +                                        
+            date + "\t" +
+            time + "\t" +
+            a + "\t\t" +
+            b + "\t\t" 
+            );
     }
 
     // ============================================================================================================================================================
@@ -439,6 +455,51 @@ public class Sasaccessdb {
                                                    
                             printMap( mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo);                   
                 } 
+            }
+            else if(sasDb.equals("Meter")){                
+                if(files[0].contains("CAL>")){ 
+                    
+                    String ids = files[0].substring(4,files[0].length());
+                    String id1 = ids.substring(0,2);
+                    String id2 = ids.substring(3,5);
+
+                    rs = statement.executeQuery(" SELECT MeterDate From Meter WHERE ID = " + id1 );                                 
+                    while(rs.next()) { IDdate = rs.getString("MeterDate"); }
+
+                    rs = statement.executeQuery(" SELECT MeterDate From Meter WHERE ID = " + id2 );                                 
+                    while(rs.next()) { IDdateB = rs.getString("MeterDate"); }
+
+                    rs = statement.executeQuery(" SELECT MeterA From Meter WHERE ID = " + id1 );                                 
+                    while(rs.next()) { ID1 = Integer.parseInt(rs.getString("MeterA")); }
+                    
+                    rs = statement.executeQuery(" SELECT MeterA From Meter WHERE ID = " + id2 );                             
+                    while(rs.next()) { ID2 = Integer.parseInt(rs.getString("MeterA")); }  
+                    IDall = ID1 - ID2;  
+
+                    rs = statement.executeQuery(" SELECT MeterB From Meter WHERE ID = " + id1 );                                 
+                    while(rs.next()) { ID1B = Integer.parseInt(rs.getString("MeterB")); }
+                    
+                    rs = statement.executeQuery(" SELECT MeterB From Meter WHERE ID = " + id2 );                             
+                    while(rs.next()) { ID2B = Integer.parseInt(rs.getString("MeterB")); }  
+                    IDallB = ID1B - ID2B;  
+
+                    System.out.println( B + "\n\t\t[ " + IDdate + " to " + IDdateB +" ]\n\t\t----------------------------" );
+                    System.out.println( B + "\t\tMeter A:  " + IDall );  
+                    System.out.println( "\t\tMeter B:  " + IDallB );  
+                }
+                else{
+                    while(rs.next()) {    
+                        if(rs.getString(2) == null){meterDate = "";} else{meterDate = rs.getString(2);}                    
+                        if(rs.getString(3) == null){meterTime = "";} else{meterTime = rs.getString(3);}
+                        if(rs.getString(4) == null){meterA = "";} else{meterA = rs.getString(4);}
+                        if(rs.getString(5) == null){meterB = "";} else{meterB = rs.getString(5);}
+                        if(rs.getString(6) == null){meter = "";} else{meter = rs.getString(6);}
+                       
+                        printMeter( rs.getString(1), meterDate, meterTime, meterA, meterB);   
+            
+                    } 
+                }
+
             }
                           
         }
@@ -791,6 +852,32 @@ public class Sasaccessdb {
     }
 
     // ============================================================================================================================================================
+    //                                                                      Add Meter
+    // ============================================================================================================================================================
+    public void addmeter(String sasDb, String chor){ 
+
+        String sas = null;        
+        testdbdriver();
+  
+        try {        
+                connection = DriverManager.getConnection(accdb); 
+                statement = connection.createStatement();
+                
+                if(chor.equals("add")){
+                    sas = "INSERT INTO Meter (meterDate) VALUES('" + sasDb + "')";
+                    System.out.println("\t\tnew Meter data has been added successfully!");
+                }
+                
+                updateData = connection.prepareStatement(sas);
+                updateData.executeUpdate();
+                                              
+        }
+        catch(SQLException sqlex){ sqlex.printStackTrace(); }
+        finally { closeConnection(); }      
+    }
+
+
+    // ============================================================================================================================================================
     //                                                                      Add Password
     // ============================================================================================================================================================
     public void addpass(String sasDb, String chor){ 
@@ -939,7 +1026,7 @@ public class Sasaccessdb {
         }
 
         if(vname.equals("DB>")){
-            System.out.println("\tmailers\t\ttax\t\tpassword\t\tmap");
+            System.out.println("\tmailers\t\ttax\t\tpassword\t\tmap\t\tmeter");
         }
         if(vname.equals("DB>MAILERS")){
             selectedDb[0] = "Mailers"; 
@@ -959,6 +1046,11 @@ public class Sasaccessdb {
         else if(vname.equals("DB>MAP")){
             selectedDb[0] = "Map";
             System.out.println("\n\t\t>> Conected to the Map database");
+            System.out.println("\t\t=================================");
+        }
+        else if(vname.equals("DB>METER")){
+            selectedDb[0] = "Meter";
+            System.out.println("\n\t\t>> Conected to the Meter database");
             System.out.println("\t\t=================================");
         }
         if(selectedDb[0] == "Mailers"){ 
@@ -1119,6 +1211,21 @@ public class Sasaccessdb {
             }
 
         }
+        else if(selectedDb[0] == "Meter"){
+            if(vname.equals("ALL") ){
+                System.out.println( B + "\tNum" + "\tDate" + "\t\tTime" + "\tMeter A" + "\t\tMeter B" );
+                vars("Meter", "SELECT * FROM " + selectedDb[0]);  
+                System.out.print(B);             
+            } 
+            else if(vname.contains("METER+>")){ 
+                addmeter(vname.substring(7,vname.length()), "add"); 
+                System.out.print(B); 
+            }
+            else if(vname.contains("CAL>")){ 
+                vars("Meter", "SELECT * From Meter");
+                System.out.print(B); 
+            }
+        }
         if(vname.contains("SET>")){  
             if(vname.contains("/")){  
                 updateRecord(vname.substring(4, vname.length())); 
@@ -1186,10 +1293,15 @@ public class Sasaccessdb {
 
                     }
                     if(name.equals("error")){ 
-                        new ProcessBuilder("cmd", "/c", "color fc").inheritIO().start().waitFor(); 
-                    } else{
-                        new ProcessBuilder("cmd", "/c", "color f0").inheritIO().start().waitFor();
+                        new ProcessBuilder("cmd", "/c", "color 0C").inheritIO().start().waitFor(); 
                     }
+                    else if(name.equals("color")){ 
+                        new ProcessBuilder("cmd", "/c", "color F0").inheritIO().start().waitFor(); 
+                    }   
+                    else{
+                          new ProcessBuilder("cmd", "/c", "color 07").inheritIO().start().waitFor();
+                    }
+                       
                     mailersData.vName(name.toUpperCase());
                 } 
                 catch (Exception e) { 
