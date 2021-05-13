@@ -30,7 +30,7 @@ public class Sasaccessdb {
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
     public static String passid, passweb, passuser, passpass, passacc;  // for passwords db
     public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
-    public static String  meterDate, meterTime, meterA, meterB, meter, IDdateB, IDdate;  // for Meter db
+    public static String  meterDate, meterTime, meterA, meterB, meterBatch, IDdateB, IDdate;  // for Meter db
     public static Integer ID1, ID2, IDall, ID1B, ID2B, IDallB;  // for Meter db
    
     public static void testdbdriver(){  //jdbdc driver
@@ -215,7 +215,7 @@ public class Sasaccessdb {
     // ============================================================================================================================================================
     //                                                                        Meter Print
     // ============================================================================================================================================================
-    public void printMeter(String id, String date, String time, String a, String b){
+    public void printMeter(String id, String date, String time, String a, String b, String mb){
        
         System.out.print( 
             "\n\t" + 
@@ -223,7 +223,8 @@ public class Sasaccessdb {
             date + "\t" +
             time + "\t" +
             a + "\t\t" +
-            b + "\t\t" 
+            b + "\t\t" +
+            mb
             );
     }
 
@@ -462,6 +463,10 @@ public class Sasaccessdb {
                     String ids = files[0].substring(4,files[0].length());
                     String id1 = ids.substring(0,2);
                     String id2 = ids.substring(3,5);
+                    String mBatch;
+
+                    // rs = statement.executeQuery(" SELECT meterBatch From Meter WHERE ID = " + id1 );                                 
+                    // while(rs.next()) { mBatch = rs.getString("meterBatch"); }
 
                     rs = statement.executeQuery(" SELECT MeterDate From Meter WHERE ID = " + id1 );                                 
                     while(rs.next()) { IDdate = rs.getString("MeterDate"); }
@@ -483,7 +488,7 @@ public class Sasaccessdb {
                     while(rs.next()) { ID2B = Integer.parseInt(rs.getString("MeterB")); }  
                     IDallB = ID1B - ID2B;  
 
-                    System.out.println( B + "\n\t\t[ " + IDdate + " to " + IDdateB +" ]\n\t\t----------------------------" );
+                    System.out.println( B + "\n\t\t[ " + IDdateB + " to " + IDdate +" ]\n\t\t----------------------------" );
                     System.out.println( B + "\t\tMeter A:  " + IDall );  
                     System.out.println( "\t\tMeter B:  " + IDallB );  
                 }
@@ -493,9 +498,9 @@ public class Sasaccessdb {
                         if(rs.getString(3) == null){meterTime = "";} else{meterTime = rs.getString(3);}
                         if(rs.getString(4) == null){meterA = "";} else{meterA = rs.getString(4);}
                         if(rs.getString(5) == null){meterB = "";} else{meterB = rs.getString(5);}
-                        if(rs.getString(6) == null){meter = "";} else{meter = rs.getString(6);}
+                        if(rs.getString(6) == null){meterBatch = "";} else{meterBatch = rs.getString(6);}
                        
-                        printMeter( rs.getString(1), meterDate, meterTime, meterA, meterB);   
+                        printMeter( rs.getString(1), meterDate, meterTime, meterA, meterB, meterBatch);   
             
                     } 
                 }
@@ -1213,7 +1218,7 @@ public class Sasaccessdb {
         }
         else if(selectedDb[0] == "Meter"){
             if(vname.equals("ALL") ){
-                System.out.println( B + "\tNum" + "\tDate" + "\t\tTime" + "\tMeter A" + "\t\tMeter B" );
+                System.out.println( B + "\tNum" + "\tDate" + "\t\tTime" + "\tMeter A" + "\t\tMeter B" + "\t\tBatch-ID" );
                 vars("Meter", "SELECT * FROM " + selectedDb[0]);  
                 System.out.print(B);             
             } 
