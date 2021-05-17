@@ -30,8 +30,8 @@ public class Sasaccessdb {
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
     public static String passid, passweb, passuser, passpass, passacc;  // for passwords db
     public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
-    public static String  meterDate, meterTime, meterA, meterB, meterBatch, IDdateB, IDdate;  // for Meter db
-    public static Integer ID1, ID2, IDall, ID1B, ID2B, IDallB;  // for Meter db
+    public static String  meterDate, meterTime, meterA, meterB, meterBatch, IDdateB, IDdate, mBatch, mailer_Batch;  // for Meter db
+    public static Integer ID1, ID2, IDall, ID1B, ID2B, IDallB, totm = 0;  // for Meter db
    
     public static void testdbdriver(){  //jdbdc driver
         try { Class.forName(jdbcdriver); }
@@ -459,14 +459,19 @@ public class Sasaccessdb {
             }
             else if(sasDb.equals("Meter")){                
                 if(files[0].contains("CAL>")){ 
-                    
+                    totm = 0;
                     String ids = files[0].substring(4,files[0].length());
                     String id1 = ids.substring(0,2);
                     String id2 = ids.substring(3,5);
-                    String mBatch;
+                    Integer id_1 = Integer.parseInt(id1);
+                    Integer id_2 = Integer.parseInt(id2) + 1;
+                    Integer mailerTotal, dif, tm;
 
-                    // rs = statement.executeQuery(" SELECT meterBatch From Meter WHERE ID = " + id1 );                                 
-                    // while(rs.next()) { mBatch = rs.getString("meterBatch"); }
+                    rs = statement.executeQuery(" SELECT MeterBatch From Meter WHERE ID = " + id1 );                                 
+                    while(rs.next()) { mBatch = rs.getString("MeterBatch"); }
+
+                    rs = statement.executeQuery(" SELECT [# Mailer] From Mailers WHERE ID = " + mBatch );                                 
+                    while(rs.next()) { mailer_Batch = rs.getString("# Mailer"); }
 
                     rs = statement.executeQuery(" SELECT MeterDate From Meter WHERE ID = " + id1 );                                 
                     while(rs.next()) { IDdate = rs.getString("MeterDate"); }
@@ -487,10 +492,22 @@ public class Sasaccessdb {
                     rs = statement.executeQuery(" SELECT MeterB From Meter WHERE ID = " + id2 );                             
                     while(rs.next()) { ID2B = Integer.parseInt(rs.getString("MeterB")); }  
                     IDallB = ID1B - ID2B;  
-
+                    mailerTotal = Integer.parseInt(mailer_Batch) *2;
+                    dif = IDallB - mailerTotal;
                     System.out.println( B + "\n\t\t[ " + IDdateB + " to " + IDdate +" ]\n\t\t----------------------------" );
                     System.out.println( B + "\t\tMeter A:  " + IDall );  
                     System.out.println( "\t\tMeter B:  " + IDallB );  
+
+                    System.out.println(B + "\t\tMailer details:");
+
+                    rs = statement.executeQuery("SELECT ID, [# Mailer] AS Total From Mailers INNER JOIN Meter ON Mailers.ID = MeterBatch WHERE Meter.ID BETWEEN " + id_2 + " AND " + id_1 + " GROUP BY ID" );
+                    while(rs.next()) { 
+                        tm = Integer.parseInt(rs.getString("Total")) *2;
+                        totm += tm;
+                        System.out.println("\t\t[" + rs.getString("ID") + "] " + totm); 
+                    }
+                    dif = IDallB - totm;
+                    System.out.println( "\n\t\tSENT:\t\t" + totm + "\n\t\t" +"Diffrence:\t" + dif);
                 }
                 else{
                     while(rs.next()) {    
