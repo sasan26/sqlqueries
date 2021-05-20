@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;  
+import java.text.SimpleDateFormat;
+import java.util.Date;
  
 public class Sasaccessdb {
 
@@ -32,7 +34,7 @@ public class Sasaccessdb {
     public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
     public static String  meterDate, meterTime, meterA, meterB, meterBatch, IDdateB, IDdate, mBatch, mailer_Batch, extra;  // for Meter db
     public static Integer ID1, ID2, IDall, ID1B, ID2B, ID_2B, ID_2, IDallB, totm = 0;  // for Meter db
-   
+    
     public static void testdbdriver(){  //jdbdc driver
         try { Class.forName(jdbcdriver); }
         catch(ClassNotFoundException cnfex) { 
@@ -249,7 +251,7 @@ public class Sasaccessdb {
             }
             if(status.equals(" | running |")){running = "\t>>>\t";}else{running="\t\t";}
             if(sap.equals("+")){ sap = running + "[s]";} else{sap = running + "[ ]";}
-            res = sap +  status + " => [" + batchNum +"] "+ batchId;           
+            res = sap +  status + "\t[" + batchNum +"] "+ batchId;           
             System.out.println(res);
         }
         else if(files[0].contains("SAP>")){
@@ -309,7 +311,7 @@ public class Sasaccessdb {
                 System.out.print( "\n\t------------\n");
                 System.out.println( "\n\t[" + batchNum + "] " + batchId + "\t\tBatch-" + batch + "\t\t" + sentDate +"\n" ); 
         }
-        else if(files[0].contains("DATE>")){             
+        else if(files[0].contains("DATE>") || files[0].contains("TODAY>")){             
             System.out.println( "\tBatch-" + batch + "\t" + sentDate + "\t| " + status + " |\t\t[" + batchNum + "] " + batchId  ); 
         }
         else{
@@ -959,17 +961,19 @@ public class Sasaccessdb {
         if(vname.equals("HELP")){
             
             JFrame f= new JFrame("Help | SasanApp");  
-            JLabel label1, label2, label3, label4, label5; 
+            JLabel label1, label2, label3, label4, label5, label6; 
             label1=new JLabel("Help");
             label2=new JLabel("Mailers Database Help");  
             label3=new JLabel("Tax Database Help");  
             label4=new JLabel("Update Data Help"); 
-            label5=new JLabel("User Help");      
+            label5=new JLabel("User Help");
+            label6=new JLabel("Meter Help");      
             label1.setBounds(60, 20, 100, 30); 
             label2.setBounds(60, 140, 300, 30);
             label3.setBounds(60, 356, 300, 30);
             label4.setBounds(60, 505, 300, 30);
             label5.setBounds(60, 625, 300, 30);
+            label6.setBounds(60, 785, 300, 30);
             // ----------- panel 1 ------------
             JPanel panel=new JPanel(new FlowLayout(FlowLayout.LEFT));  
             panel.setBounds(50,50,600,74);    
@@ -1050,10 +1054,23 @@ public class Sasaccessdb {
             JTable jt5=new JTable(data5,column5);     
             JScrollPane sp5=new JScrollPane(jt5);
             panel5.add(sp5); 
+
+            // ----------------- panel 6 ------------------
+            JPanel panel6=new JPanel(new FlowLayout(FlowLayout.LEFT));  
+            panel6.setBounds(50,810,600,74);    
+            
+            String data6[][]={ {"all","to show all the meter data"},    
+                              {"cal>[num]/[num]","to show meter data in a specified date range"},
+                              {"meter+>[date]","to add a new data"}                                
+                            };    
+            String column6[]={"Command","Details"};         
+            JTable jt6=new JTable(data6,column6);     
+            JScrollPane sp6=new JScrollPane(jt6);
+            panel6.add(sp6);
             
             // ----------------- close button -----------------
             JButton b=new JButton("Close");  
-            b.setBounds(411,782,95,30); 
+            b.setBounds(411,900,95,30); 
             b.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
                     f.setVisible(false); 
@@ -1062,16 +1079,16 @@ public class Sasaccessdb {
                     });   
             f.add(b);  
 
-            f.add(label1); f.add(label2); f.add(label3); f.add(label4); f.add(label5);
-            f.add(panel); f.add(panel2); f.add(panel3); f.add(panel4); f.add(panel5);
-            f.setSize(600,900);  
+            f.add(label1); f.add(label2); f.add(label3); f.add(label4); f.add(label5); f.add(label6);
+            f.add(panel); f.add(panel2); f.add(panel3); f.add(panel4); f.add(panel5); f.add(panel6);
+            f.setSize(600,1000);  
             f.setLayout(null);  
             f.setVisible(true);
 
         }
 
         if(vname.equals("DB>")){
-            System.out.println("\tmailers\t\ttax\t\tpassword\t\tmap\t\tmeter");
+            System.out.println("\tmailers\n\ttax\n\tpassword\n\tmap\n\tmeter");
         }
         if(vname.equals("DB>MAILERS")){
             selectedDb[0] = "Mailers"; 
@@ -1115,6 +1132,13 @@ public class Sasaccessdb {
                 System.out.print(B);
                 datebatch = vname.substring(5,vname.length()); 
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Sent Date]='" + datebatch + "'");
+            }
+            else if(vname.contains("TODAY>")){
+                System.out.print(B);
+                Date date = new Date();
+                SimpleDateFormat newformat = new SimpleDateFormat("MM/dd/yyyy");
+                String newdate= newformat.format(date);
+                vars("Mailers", "SELECT * FROM MAILERS WHERE [Sent Date]='" + newdate + "'");
             }
             else if(vname.contains("STATE>")){
                 System.out.print("\n\tBatch \tSent Date \tNum  Batch ID \n" );
