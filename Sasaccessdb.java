@@ -26,7 +26,7 @@ public class Sasaccessdb {
     public static String[] files = {"sasan"};
     public static String[] selectedDb = {"sasan"};
     public static String numbatch, idBatch, datebatch, statebatch, checkbatch, bbatch, statusbatch, sapbatch;  // vars for db query
-    public static String batchNum, batchId, sentDate, responseDate, state,t1, t2, check, piece, sap, status, batch, res, running;  // for Mailers db table
+    public static String batchNum, batchId, sentDate, responseDate, state,t1, t2, check, piece, sap, status, batch, res, running, nowSas;  // for Mailers db table
     public static String taxId, taxMail, taxState, taxAlert, taxDate, taxBalance, taxUser, taxPass, taxPin, taxLn, taxNote, nextFiling;   // for List db table (tax)
     public static String stateName, stateLink, stateId;  // for weblink db table
     public static String loginid, sasuser, saspass, saslastlogin, allid, alluser, allpass, alllastlogin, userLastLogin;  // for Credentials and log db tables
@@ -34,6 +34,7 @@ public class Sasaccessdb {
     public static String mapid, pc, tel, mapip, mapname, mapwin, domain, serial, pin, puk, mkey, duo;    // for map db
     public static String  meterDate, meterTime, meterA, meterB, meterBatch, IDdateB, IDdate, mBatch, mailer_Batch, extra;  // for Meter db
     public static Integer ID1, ID2, IDall, ID1B, ID2B, ID_2B, ID_2, IDallB, totm = 0;  // for Meter db
+    public static String newdate;   // for newFormatDate function
     
     public static void testdbdriver(){  //jdbdc driver
         try { Class.forName(jdbcdriver); }
@@ -68,6 +69,12 @@ public class Sasaccessdb {
             System.out.println("\n\t\t[" + stateId + "] " + stateName);
             System.out.println("\t\t" + stateLink);
         }
+    }
+
+    public static void changeDateFormat(){
+        Date date = new Date();
+        SimpleDateFormat newformat = new SimpleDateFormat("MM/dd/yyyy");
+        newdate= newformat.format(date);
     }
 
     // ============================================================================================================================================================
@@ -236,22 +243,23 @@ public class Sasaccessdb {
 
     public void printRes(String batchNum, String batchId, String sentDate, String state, String t1, String t2, String check, String piece, String sap, String status, String batch){
         if(batchNum.length() == 1){ batchNum = "00" + batchNum;} else if(batchNum.length() == 2){ batchNum = "0" + batchNum;} 
-
+        if(sentDate.equals(newdate)){nowSas = "now\t";} else{nowSas="\t";}
         if(files[0].equals("ALL")){
             System.out.println( "\t" + batchNum + "\t" + batchId );
         }
         else if(files[0].contains("STATUS>")){                
             switch (status){
-                case "ready": status = " | ready   |"; break;
-                case "printed": status = " | PRINTED |"; break;
-                case "shipped": status =  " | Shipped |"; break;
-                case "hold": status =  " | HOLD    |"; break;
-                case "": status =  " |         |"; break;
-                default: status = " | " + status + " |";
+                case "ready": status = " [ r e a d y . . . . . ]"; break;
+                case "printed": status = " [ . . P R I N T E D . ]"; break;
+                case "shipped": status =  " [ . . . S h i p p e d ]"; break;
+                case "hold": status =  " [ H O L D . . . . . . ]"; break;
+                case "": status =  " [ . . . . . . . . . . ]"; break;
+                default: status = " [ . r u n n i n g . . ]";
             }
-            if(status.equals(" | running |")){running = "\t>>>\t";}else{running="\t\t";}
+            
+            if(status.equals(" [ . r u n n i n g . . ]")){running = "\t>>>" + nowSas;}else{running="\t" +nowSas;}
             if(sap.equals("+")){ sap = running + "[s]";} else{sap = running + "[ ]";}
-            res = sap +  status + "\t[" + batchNum +"] "+ batchId;           
+            res = sap +  status + " [" + batchNum +"] "+ batchId;           
             System.out.println(res);
         }
         else if(files[0].contains("SAP>")){
@@ -292,11 +300,13 @@ public class Sasaccessdb {
             }
         }
         else if(files[0].contains("BATCH>")){
+            if(status.equals(" [ . r u n n i n g . . ]") || status.equals("running")){running = ">>>";}else{running="";}
             if(sentDate.length() < 8){
                 System.out.print( "\n\t\t\t\t\t\t[" + batchNum + "] " + batchId );
             } else{
                 System.out.print( 
-                    "\n\t" +                                         
+                    "\n\t" + running +  
+                    nowSas +                                      
                     sentDate + "\t" +
                     t1 + "\t" +
                     t2 + "\t" +
@@ -311,7 +321,7 @@ public class Sasaccessdb {
                 System.out.print( "\n\t------------\n");
                 System.out.println( "\n\t[" + batchNum + "] " + batchId + "\t\tBatch-" + batch + "\t\t" + sentDate +"\n" ); 
         }
-        else if(files[0].contains("DATE>") || files[0].contains("TODAY>")){             
+        else if(files[0].contains("DATE>") || files[0].contains("TODAY>") || files[0].equals("ACTIVE>")){             
             System.out.println( "\tBatch-" + batch + "\t" + sentDate + "\t| " + status + " |\t\t[" + batchNum + "] " + batchId  ); 
         }
         else{
@@ -1135,9 +1145,7 @@ public class Sasaccessdb {
             }
             else if(vname.contains("TODAY>")){
                 System.out.print(B);
-                Date date = new Date();
-                SimpleDateFormat newformat = new SimpleDateFormat("MM/dd/yyyy");
-                String newdate= newformat.format(date);
+                changeDateFormat();
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Sent Date]='" + newdate + "'");
             }
             else if(vname.contains("STATE>")){
@@ -1151,14 +1159,20 @@ public class Sasaccessdb {
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Check #]='" + checkbatch + "'");
             }
             else if(vname.contains("BATCH>")){
-                System.out.print("\n\tSent Date \tTray-1 \tTray-2 \tPieces \tBatch ID \n" );
+                changeDateFormat();
+                System.out.print("\n\t\tSent Date \tTray-1 \tTray-2 \tPieces \tBatch ID \n" );
                 bbatch = vname.substring(6,vname.length());  
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Batch]='" + bbatch + "'");
                 System.out.print(B);
             }
             else if(vname.contains("STATUS>")){
+                changeDateFormat();
                 statusbatch = vname.substring(7,vname.length());
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Batch]='" + statusbatch + "'ORDER BY Status IS NULL, Status DESC,sap");
+                System.out.print(B);
+            }
+            else if(vname.equals("ACTIVE>")){
+                vars("Mailers", "SELECT * FROM MAILERS WHERE [Status]='running'");
                 System.out.print(B);
             }
             else if(vname.contains("SAP>")){
