@@ -322,33 +322,55 @@ public class Sasaccessdb {
                 System.out.println( "\n\t[" + batchNum + "] " + batchId + "\t\tBatch-" + batch + "\t\t" + sentDate +"\n" ); 
         }
         else if(files[0].contains("DATE>") || files[0].contains("TODAY>") || files[0].equals("ACTIVE>")){             
-            System.out.println( "\tBatch-" + batch + "\t" + sentDate + "\t| " + status + " |\t\t[" + batchNum + "] " + batchId  ); 
-        }
-        else{
-            String devider = "\n\t----------------------------";
-            System.out.println( "\n\t[" + batchNum + "] " + batchId);
+            System.out.println( "\n\t[" + batchNum + "] " + batchId );
+            String devider = "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
             System.out.println( 
                 devider +
-                "\n\tBatch\t\t" + batch +
-                devider + 
-                "\n\tDate\t\t" + sentDate + 
-                devider +
-                "\n\tState\t\t" + state + 
-                devider +
-                "\n\tCheck\t\t" + check + 
-                devider + 
-                "\n\tPieces\t\t" + piece + 
-                devider +
-                "\n\tTray-1\t\t" + t1 + 
-                devider +
-                "\n\tTray-2\t\t" + t2 + 
-                devider + 
-                "\n\tSAP\t\t" + sap + 
-                devider +
-                "\n\tStatus\t\t" + status + 
-                devider 
+                "\t" + sentDate +  
+                "\t" + piece + 
+                "\t" + t1 +
+                "\t" + t2 + 
+                "\t" + status + " [" + sap + "]" + B +
+                devider    
                 );
-    
+
+            System.out.print(B); 
+
+        }
+        else{
+            System.out.println( "\n\t[" + batchNum + "] " + batchId );
+            String devider = "\n\t.===============================.===============================.\n\t";
+            String deviderend = "\n\t'==============================='==============================='\n\t";
+            String devider_2 = "\n\t";
+            String tt = "\t\t\t|";
+            String ttt = "\t\t\t\t|";
+            String ttsp = "\t\t\t|   ";
+            if(state.length() < 3){state = state + "   ";}
+            if(check.length() < 4){check = "    ";}
+            if(piece.length()<3){piece = "     ";}
+            if(status.length()<3){status = "     ";}
+            System.out.println( 
+                devider +
+                "|  Batch" + ttsp + batch + ttt +
+                devider_2 + 
+                "|  Date\t" + ttsp + sentDate + tt + 
+                devider_2 +
+                "|  State" + ttsp + state + "\t\t\t|" + 
+                deviderend + devider + 
+                "|  Pieces" + ttsp + piece + tt + 
+                devider_2 +
+                "|  Tray-1" + ttsp + t1 + ttt + 
+                devider_2 +
+                "|  Tray-2" + ttsp + t2 + ttt + 
+                deviderend + devider +
+                "|  Check" + ttsp + check + tt + 
+                devider_2 +
+                "|  SAP\t" + ttsp + sap + ttt + 
+                devider_2 +
+                "|  Status" + ttsp + status + tt + 
+                deviderend 
+                );
+
             System.out.print(B);
         }
     }
@@ -504,7 +526,7 @@ public class Sasaccessdb {
                     rs = statement.executeQuery(" SELECT MeterB From Meter WHERE ID = " + id2 );                             
                     while(rs.next()) { ID2B = Integer.parseInt(rs.getString("MeterB")); }  
                     IDallB = ID1B - ID2B;  
-                    String devider = "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+                    String devider = "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
                     System.out.println( B + "\n\t\t[ " + IDdateB + " to " + IDdate +" ]\n" );                   
                     System.out.println( devider + "\n\t\t(PRINTER)\n");
 
@@ -530,7 +552,7 @@ public class Sasaccessdb {
                     while(rs.next()) { 
                         tm = Integer.parseInt(rs.getString("Total")) *2;
                         totm += tm;
-                        System.out.println("\t\t\t  > [" + rs.getString("ID") + "] " + rs.getString("BatchID") + "\t" + tm); 
+                        System.out.println("\t\t\t" + tm + "  > [" + rs.getString("ID") + "] " + rs.getString("BatchID") + "\t"); 
                     }
                     dif = IDallB - totm;
                     if( IDallB > totm ){ extra = " (EXTRA)"; } else{extra = "";}
