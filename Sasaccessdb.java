@@ -262,6 +262,10 @@ public class Sasaccessdb {
             res = sap +  status + " [" + batchNum +"] "+ batchId;           
             System.out.println(res);
         }
+        else if(files[0].equals("RUNNING>") || files[0].equals("PRINTED>")){                
+            res = "\t\t[" + batchNum +"] "+ batchId;           
+            System.out.println(res);
+        }
         else if(files[0].contains("SAP>")){
             if(sap.equals("+")){
                 System.out.println("\t\t [+] ADDED => "+batchId);
@@ -554,14 +558,14 @@ public class Sasaccessdb {
                         totm += tm;
                         System.out.println("\t\t\t" + tm + "  > [" + rs.getString("ID") + "] " + rs.getString("BatchID") + "\t"); 
                     }
-                    dif = IDallB - totm;
+                    dif = IDall - totm;
                     if( IDallB > totm ){ extra = " (EXTRA)"; } else{extra = "";}
 
                     System.out.println( devider +
                                         "\n\t\t(RESULT)\n" +
                                         "\n\t\tPrinted:  " + IDall +
                                         "\n\t\tSent:\t  " + totm +
-                                        "\n\n\t\tGAP:\t  " + dif + extra
+                                        "\n\n\t\tGAP:\t  " + dif + extra 
                                       );
                     
                     
@@ -1193,8 +1197,12 @@ public class Sasaccessdb {
                 vars("Mailers", "SELECT * FROM MAILERS WHERE [Batch]='" + statusbatch + "'ORDER BY Status IS NULL, Status DESC,sap");
                 System.out.print(B);
             }
-            else if(vname.equals("ACTIVE>")){
-                vars("Mailers", "SELECT * FROM MAILERS WHERE [Status]='running'");
+            else if(vname.equals("RUNNING>")){
+                vars("Mailers", "SELECT * FROM MAILERS WHERE [Status]='running' ORDER BY [sent Date] ASC");
+                System.out.print(B);
+            }
+            else if(vname.equals("PRINTED>")){
+                vars("Mailers", "SELECT * FROM MAILERS WHERE [Status]='printed' ORDER BY [sent Date] ASC");
                 System.out.print(B);
             }
             else if(vname.contains("SAP>")){
